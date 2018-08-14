@@ -5,14 +5,20 @@
  */
 package servlets;
 
+import controllers.KaryawanController;
+import entities.Karyawan;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Date;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import net.sf.ehcache.hibernate.HibernateUtil;
+import org.mindrot.jbcrypt.BCrypt;
+import tools.OTHibernateUtil;
 
 /**
  *
@@ -32,14 +38,32 @@ public class ValidationServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
+        String email = request.getParameter("txtEmail");
+        String password = request.getParameter("txtPassword");
+        String salt = BCrypt.gensalt(12);
+        Date date = new Date();
         HttpSession session = request.getSession();
         RequestDispatcher dispatcher = null;
+        KaryawanController kc = new KaryawanController(OTHibernateUtil.getSessionFactory());
         try (PrintWriter out = response.getWriter()) {
-//            session.setAttribute("message", "Ini saya pakai session pak....");
-//            dispatcher = request.getRequestDispatcher("views/cobaView.jsp");
-            session.setAttribute("message", "Hallo");
-            dispatcher = request.getRequestDispatcher("views/home.jsp");
-            dispatcher.forward(request, response);
+            for (Karyawan kar : kc.getAllSort("id", "asc")) {
+                if(email == kar.getEmail()){
+                    if(BCrypt.hashpw(password, salt) == kar.getPassword()){
+                        
+                        
+                        session.setAttribute("idK", kar.getIdRole().getId());
+                        session.setAttribute("idRole", kar.getIdRole().getId());
+                        session.setAttribute("tanggalNow", date);
+                        dispatcher = request.getRequestDispatcher("views/home.jsp");
+                    }else{
+                        out.println("Email/Password tidak valid");
+                    }
+                }else{
+                    out.println("Email/Password tidak valid");
+                }
+            }
+            
+            dispatcher.include(request, response);
         }
     }
 

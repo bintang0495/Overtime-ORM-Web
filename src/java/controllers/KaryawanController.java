@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import org.hibernate.SessionFactory;
+import org.mindrot.jbcrypt.BCrypt;
 
 /**
  *
@@ -31,7 +32,15 @@ public class KaryawanController {
         Karyawan karyawan = new Karyawan(new BigDecimal(id), nama, tglLahir, tglMasuk, alamat, new BigInteger(gaji), email, jenisKelamin, password, idRole);
         return this.kdao.insertOrUpdate(karyawan);
     }
+    
+    private String hashPassword(String password_plaintext){
+        String salt = BCrypt.gensalt(20);
+        String hashed_password = BCrypt.hashpw(password_plaintext, salt);
+        
+        return (hashed_password);
+    }
 
+    
     private List<Karyawan> convertToListJob(List<Object> dataAwal) {
         List<Karyawan> dataKaryawan = new ArrayList<>();
         for (Object object : dataAwal) {
