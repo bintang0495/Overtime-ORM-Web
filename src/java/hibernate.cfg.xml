@@ -45,12 +45,13 @@ Contributor(s):
     <property name="hibernate.connection.driver_class">oracle.jdbc.OracleDriver</property>
     <property name="hibernate.connection.url">jdbc:oracle:thin:@localhost:1521:XE</property>
     <property name="hibernate.connection.username">system</property>
-    <property name="hibernate.connection.password">poloking</property>
+    <property name="hibernate.connection.password">@1n4nnur</property>
     <property name="hibernate.connection.autocommit">true</property>
     <property name="hibernate.enable_lazy_load_no_trans">true</property>
     <property name="hibernate.current_session_context_class">thread</property>
     <property name="hibernate.show_sql">true</property>
     <property name="hibernate.hbm2ddl.auto">update</property>
+    <property name="hibernate.default_schema">overtime</property>
     <mapping class="entities.DataOvertime"/>
     <mapping class="entities.JenisLembur"/>
     <mapping class="entities.Karyawan"/>

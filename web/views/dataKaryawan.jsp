@@ -4,7 +4,7 @@
     Author     : BINTANG
 --%>
 
-<%@page import="tools.HibernateUtil"%>
+<%@page import="tools.OTHibernateUtil"%>
 <%@page import="controllers.KaryawanController"%>
 <%@page import="entities.Karyawan"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -29,27 +29,23 @@
                 <%@include file="navbar.jsp" %>
                 <main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
                     <%
-                        KaryawanController kc = new KaryawanController(HibernateUtil.getSessionFactory());
+                        KaryawanController kc = new KaryawanController(OTHibernateUtil.getSessionFactory());
                     %>
                     <h1>Karyawan</h1>
                     <select name="cmbCategory">
                     </select>
                     <input type="text" name="txtFind" value="" />
                     <input type="submit" value="Find" name="btnFind" />
-
+                    <a href="addKaryawan.jsp">Tambah Data</a>
                     <table border="1">
                         <thead>
                             <tr>
                                 <th>ID</th>
-                                <th>Role </th>
                                 <th>Nama Karyawan</th>
-                                <th>Tanggal Lahir</th>
-                                <th>Tanggal Bergabung</th>
                                 <th>Alamat</th>
-                                <th>Gaji</th>
                                 <th>Email</th>
                                 <th>Jenis Kelamin</th>
-                                <th>Password</th>
+                                <th>Role </th>
                                 <th>Aksi</th>
                             </tr>
                         </thead>
@@ -60,17 +56,14 @@
                             <tr>
 
                                 <td><%= kar.getId()%></td>
-                                <td><%= kar.getIdRole()%></td>
                                 <td><%= kar.getNama()%></td>
-                                <td><%=kar.getTglLahir()%></td>
-                                <td><%=kar.getTglMasuk()%></td>
                                 <td><%=kar.getAlamat()%></td>
-                                <td><%=kar.getGaji()%></td>
                                 <td><%=kar.getEmail()%></td>
                                 <td><%=kar.getJenisKelamin()%></td>
-                                <td><%=kar.getPassword()%></td>
+                                <td><%= kar.getIdRole().getNama() %></td>
                                 <td>
-                                    <span><a href="#">Edit</a></span>
+                                    <span><a href="../editKaryawanView?id=<%= kar.getId() %>">Edit</a></span>
+                                    <span><a href="../detailKaryawanView?id=<%= kar.getId() %>">Detail</a></span>
                                     <span><a href="#">Delete</a></span>
                                 </td>
                             </tr>
