@@ -5,11 +5,12 @@
  */
 package servlets;
 
-import controllers.KaryawanController;
+import controllers.RoleController;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -18,9 +19,10 @@ import tools.OTHibernateUtil;
 
 /**
  *
- * @author BINTANG
+ * @author AINAN
  */
-public class EditKaryawanView extends HttpServlet {
+@WebServlet(name = "TambahKaryawanView", urlPatterns = {"/tambahKaryawanView"})
+public class TambahKaryawanView extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -34,14 +36,14 @@ public class EditKaryawanView extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        String id = request.getParameter("id");
         HttpSession session = request.getSession();
         RequestDispatcher dispatcher = null;
-        KaryawanController kc = new KaryawanController(OTHibernateUtil.getSessionFactory());
+        
+        RoleController rc = new RoleController(OTHibernateUtil.getSessionFactory());
         
         try (PrintWriter out = response.getWriter()) {
-            session.setAttribute("id", kc.getById(id));
-            dispatcher = request.getRequestDispatcher("views/editKaryawan.jsp");
+            session.setAttribute("Role", rc.getAll());
+            dispatcher = request.getRequestDispatcher("views/addKaryawan.jsp");
             dispatcher.forward(request, response);
         }
     }

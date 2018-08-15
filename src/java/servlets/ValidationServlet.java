@@ -46,24 +46,19 @@ public class ValidationServlet extends HttpServlet {
         RequestDispatcher dispatcher = null;
         KaryawanController kc = new KaryawanController(OTHibernateUtil.getSessionFactory());
         try (PrintWriter out = response.getWriter()) {
-            for (Karyawan kar : kc.getAllSort("id", "asc")) {
-                if(email == kar.getEmail()){
-                    if(BCrypt.hashpw(password, salt) == kar.getPassword()){
-                        
-                        
-                        session.setAttribute("idK", kar.getIdRole().getId());
-                        session.setAttribute("idRole", kar.getIdRole().getId());
-                        session.setAttribute("tanggalNow", date);
-                        dispatcher = request.getRequestDispatcher("views/home.jsp");
-                    }else{
-                        out.println("Email/Password tidak valid");
-                    }
-                }else{
-                    out.println("Email/Password tidak valid");
+            session.setAttribute("email", email);
+            if (email == "" || email == null || password == "" || password == null) {
+                out.println("Isikan Email/Password");
+            } else {
+                if (kc.login("email", email, password)) {
+                    response.sendRedirect("views/home.jsp");
+                } else {
+                    
+                    response.sendRedirect("views/login.jsp");
                 }
+
             }
-            
-            dispatcher.include(request, response);
+//            dispatcher.include(request, response);
         }
     }
 

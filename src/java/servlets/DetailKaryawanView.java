@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -18,9 +19,10 @@ import tools.OTHibernateUtil;
 
 /**
  *
- * @author BINTANG
+ * @author AINAN
  */
-public class EditKaryawanView extends HttpServlet {
+@WebServlet(name = "DetailKaryawanView", urlPatterns = {"/detailKaryawanView"})
+public class DetailKaryawanView extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -41,7 +43,7 @@ public class EditKaryawanView extends HttpServlet {
         
         try (PrintWriter out = response.getWriter()) {
             session.setAttribute("id", kc.getById(id));
-            dispatcher = request.getRequestDispatcher("views/editKaryawan.jsp");
+            dispatcher = request.getRequestDispatcher("views/detailKaryawan.jsp");
             dispatcher.forward(request, response);
         }
     }

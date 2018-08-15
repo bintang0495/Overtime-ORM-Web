@@ -51,6 +51,7 @@ Contributor(s):
     <property name="hibernate.current_session_context_class">thread</property>
     <property name="hibernate.show_sql">true</property>
     <property name="hibernate.hbm2ddl.auto">update</property>
+    <property name="hibernate.default_schema">overtime</property>
     <mapping class="entities.DataOvertime"/>
     <mapping class="entities.JenisLembur"/>
     <mapping class="entities.Karyawan"/>

@@ -5,12 +5,17 @@
  */
 package servlets;
 
+import controllers.KaryawanController;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.mindrot.jbcrypt.BCrypt;
+import tools.OTHibernateUtil;
 
 /**
  *
@@ -30,17 +35,27 @@ public class ActionEditKaryawan extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
+        String id = request.getParameter("txtPegawaiId");
+        String role = request.getParameter("cmbRole");
+        String nama = request.getParameter("txtNamaPegawai");
+        String tglLahir = request.getParameter("txtTglLahir");
+        String tglMasuk = request.getParameter("txtTglMasuk");
+        String alamat = request.getParameter("txtAlamat");
+        String gaji = request.getParameter("txtGaji");
+        String email = request.getParameter("txtEmail");
+        String jk = request.getParameter("txtJenisKelamin");
+        String password = request.getParameter("txtPassword");
+        String salt = BCrypt.gensalt(12);
         try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet ActionEditKaryawan</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet ActionEditKaryawan at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
+            KaryawanController kc = new KaryawanController(OTHibernateUtil.getSessionFactory());
+            SimpleDateFormat formatTanggal = new SimpleDateFormat("MM-dd-yyyy");
+            Date tanggalLahir = formatTanggal.parse(tglLahir);
+            Date tanggalMasuk = formatTanggal.parse(tglMasuk);
+            if(kc.saveOrEdit(id, nama, tanggalLahir, tanggalMasuk, alamat, gaji, email, email, BCrypt.hashpw(password, salt), role)){
+                out.println("Berhasil edit, selamaaaaat!");
+            } else {
+                out.println("Gagal, kasian deh~");
+            }
         }
     }
 

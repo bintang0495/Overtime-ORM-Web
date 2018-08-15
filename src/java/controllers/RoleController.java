@@ -46,6 +46,6 @@ public class RoleController {
     }
     
     public Role getById(String jobId){
-        return this.rdao.getJobById(jobId);
+        return this.rdao.getRoleById(jobId);
     }
 }

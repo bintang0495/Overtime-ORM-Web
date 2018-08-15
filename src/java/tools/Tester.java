@@ -25,7 +25,7 @@ public class Tester {
         return (hashed_password);
     }
 
-    private void checkPass(String plainPassword, String hashedPassword) {
+    public static void checkPass(String plainPassword, String hashedPassword) {
         if (BCrypt.checkpw(plainPassword, hashedPassword)) {
             System.out.println("The password matches.");
         } else {
@@ -52,7 +52,7 @@ public class Tester {
         System.out.println("ChiperPassword dari Dina = " + hashPassword(password4));
         System.out.println("Sekarang tangggal = " + dateString);
         System.out.println("Sekarang jam = " + jamString);
-
+        checkPass("bintangkecil", hashPassword("bintangkecil"));
     }
 
 }

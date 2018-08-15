@@ -6,10 +6,12 @@
 package controllers;
 
 import daos.KaryawanDAO;
+import daos.RoleDAO;
 import entities.Karyawan;
 import entities.Role;
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -23,21 +25,28 @@ import org.mindrot.jbcrypt.BCrypt;
 public class KaryawanController {
     
     private final KaryawanDAO kdao;
+    private RoleDAO rdao;
 
     public KaryawanController(SessionFactory factory) {
         this.kdao = new KaryawanDAO(factory);
+        this.rdao = new RoleDAO(factory);
     }
     
-    public boolean saveOrEdit(String id, String nama, Date tglLahir, Date tglMasuk, String alamat, String gaji, String email, String jenisKelamin, String password, Role idRole) {
-        Karyawan karyawan = new Karyawan(new BigDecimal(id), nama, tglLahir, tglMasuk, alamat, new BigInteger(gaji), email, jenisKelamin, password, idRole);
+    public boolean saveOrEdit(String id, String nama, Date tglLahir, Date tglMasuk, String alamat, String gaji, String email, String jenisKelamin, String password, String idRole) {
+        Role role = this.rdao.getRoleById(idRole);
+        Karyawan karyawan = new Karyawan(new BigDecimal(id), nama, tglLahir, tglMasuk, alamat, new BigInteger(gaji), email, jenisKelamin, password, role);
         return this.kdao.insertOrUpdate(karyawan);
     }
     
-    private String hashPassword(String password_plaintext){
-        String salt = BCrypt.gensalt(20);
-        String hashed_password = BCrypt.hashpw(password_plaintext, salt);
-        
-        return (hashed_password);
+    
+    public boolean login(String id, String password){
+        Karyawan kar = (Karyawan) kdao.getJobById(id);
+        return BCrypt.checkpw(password, kar.getPassword());
+    }
+    
+    public boolean login(String category,String username, String password){
+        Karyawan kar = (Karyawan) kdao.search(category, username).get(0);
+        return BCrypt.checkpw(password, kar.getPassword());
     }
 
     

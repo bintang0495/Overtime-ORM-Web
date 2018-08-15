@@ -12,13 +12,14 @@
         <title>Home</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <!--Style Bootstrap-->
-        <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+        <link rel="stylesheet" href="../bootstrap/css/bootstrap.min.css">
 
         <!--Style Custom-->
         <!--<link rel="stylesheet" href="bootstrap/css/custom.css">-->
-        <link rel="stylesheet" href="bootstrap/css/dashboard.css">
+        <link rel="stylesheet" href="../bootstrap/css/dashboard.css">
     </head>   
     <body>
+        
         <nav class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0">
             <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="#">Menu</a>
             <ul class="navbar-nav px-3">
@@ -34,7 +35,7 @@
                 <main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
                     
                     
-                    
+                    <% out.println(session.getAttribute("email")); %>
                     
                     
                     

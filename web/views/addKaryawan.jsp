@@ -4,8 +4,8 @@
     Author     : AINAN
 --%>
 
+<%@page import="tools.OTHibernateUtil"%>
 <%@page import="entities.Role"%>
-<%@page import="tools.HibernateUtil"%>
 <%@page import="controllers.RoleController"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -15,6 +15,7 @@
         <title>Tambah Karyawan</title>
     </head>
     <body>
+        <form action="actionTambahServlet" method="POST">
         <h1>TAMBAH DATA KARYAWAN</h1>
         <table border="0">
             <tbody>
@@ -28,7 +29,7 @@
                     <td>: </td>
                     <td><select name="cmbRole">
                             <%
-                                RoleController rc = new RoleController(HibernateUtil.getSessionFactory());
+                                RoleController rc = new RoleController(OTHibernateUtil.getSessionFactory());
                                 
                                 for (Role role : rc.getAll()) {
                             %><option value="<%= role.getId() %>"><%= role.getNama() %></option>           
@@ -71,8 +72,16 @@
                     <td>: </td>
                     <td><input type="text" name="txtJenisKelamin"/></td>
                 </tr>
+                <tr>
+                    <td>Password</td>
+                    <td>: </td>
+                    <td><input type="text" name="txtPassword"/></td>
+                </tr>
+                <tr>
+                    <input type="submit" value="Save" />
+                </tr>
             </tbody>
         </table>
-
+        </form>
     </body>
 </html>

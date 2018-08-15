@@ -53,7 +53,7 @@ public class RoleDAO {
      * @param roleId
      * @return 
      */
-    public Role getJobById(String roleId){
+    public Role getRoleById(String roleId){
         return (Role) this.fdao.getById("FROM Role WHERE id ='" +roleId+ "'");
     }
 }

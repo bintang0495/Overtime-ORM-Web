@@ -24,9 +24,6 @@
                 <a class="nav-link" href="views/dataWaitingApproval.jsp"><span data-feather="file"></span>Waiting Approval</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="views/dataWaitingApproval.jsp"><span data-feather="file"></span>Waiting Approval</a>
-            </li>
-            <li class="nav-item">
                 <a class="nav-link" href="views/dataHistoryOvertime.jsp"><span data-feather="file"></span>History Overtime</a>
             </li>
 
