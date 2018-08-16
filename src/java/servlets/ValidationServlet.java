@@ -47,11 +47,10 @@ public class ValidationServlet extends HttpServlet {
         KaryawanController kc = new KaryawanController(OTHibernateUtil.getSessionFactory());
         try (PrintWriter out = response.getWriter()) {
             if (email == "" || email == null || password == "" || password == null) {
-                out.println("Gagal");
+                out.println("Isikan Email/password");
             } else {
                 if (kc.login("email", email, password)) {
-                    
-                    session.setAttribute("id_karyawan", kc.getIdByCategory("email", email).getId());
+                    session.setAttribute("id", kc.getIdByCategory("email", email).getId());
                     response.sendRedirect("views/home.jsp");
                 } else {
                     response.sendRedirect("views/login.jsp");

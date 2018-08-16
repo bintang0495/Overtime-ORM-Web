@@ -5,10 +5,10 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<% if (session.getAttribute("id_karyawan") == null) {
+<% if (session.getAttribute("id") == null) {
         response.sendRedirect("login.jsp");
     } else {
-       %>
+%>
 <!DOCTYPE html>
 <html>
     <head>
@@ -31,29 +31,31 @@
     <body>
         <%@include file="navbar.jsp" %>
         <div id="page-wrapper">
-            <form>
-                <div class="form-group row">
-                    <label for="inpPassword" class="col-sm-2 col-form-label">Password Lama</label>
-                    <div class="col-sm-10">
-                        <input type="text" class="form-control" id="inpPassword"  placeholder="Password Lama">
+            <div class="contaner">
+                <form>
+                    <div class="form-group row">
+                        <label for="inpPassword" class="col-sm-2 col-form-label">Password Lama</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="inpPassword"  placeholder="Password Lama">
+                        </div>
                     </div>
-                </div>
-                <div class="form-group row">
-                    <label for="inpPasswordBaru" class="col-sm-2 col-form-label">Password Baru</label>
-                    <div class="col-sm-10">
-                        <input type="password" class="form-control" id="inpPasswordBaru" placeholder="Password Baru">
+                    <div class="form-group row">
+                        <label for="inpPasswordBaru" class="col-sm-2 col-form-label">Password Baru</label>
+                        <div class="col-sm-10">
+                            <input type="password" class="form-control" id="inpPasswordBaru" placeholder="Password Baru">
+                        </div>
                     </div>
-                </div>
-                <div class="form-group row">
-                    <label for="rePasswordBaru" class="col-sm-2 col-form-label">Konfirmasi Password Baru</label>
-                    <div class="col-sm-10">
-                        <input type="password" class="form-control" id="rePasswordBaru" placeholder="Ulangi Password Baru">
+                    <div class="form-group row">
+                        <label for="rePasswordBaru" class="col-sm-2 col-form-label">Konfirmasi Password Baru</label>
+                        <div class="col-sm-10">
+                            <input type="password" class="form-control" id="rePasswordBaru" placeholder="Ulangi Password Baru">
+                        </div>
                     </div>
-                </div>
-                <div class="text-center">
-                    <input type="submit" value="Save" class="btn btn-outline-light" />
-                </div>
-            </form>
+                    <div class="text-center">
+                        <input type="submit" value="Save" class="btn btn-outline-light" />
+                    </div>
+                </form>
+            </div>
         </div>
         <!-- jQuery -->
         <script src="../lib/vendor/jquery/jquery.min.js"></script>

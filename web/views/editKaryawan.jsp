@@ -10,7 +10,7 @@
 <%@page import="entities.Karyawan"%>
 <%@page import="controllers.KaryawanController"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<% if (session.getAttribute("id_karyawan") == null) {
+<% if (session.getAttribute("id") == null) {
         response.sendRedirect("login.jsp");
     } else { %>
 <!DOCTYPE html>
@@ -36,7 +36,7 @@
         <%@include file="navbar.jsp" %>
         <div id="page-wrapper">
             <h1>EDIT DATA KARYAWAN</h1>
-            <%            Karyawan karyawan = (Karyawan) session.getAttribute("id_karyawan");
+            <%            Karyawan karyawan = (Karyawan) ;
             %>
             <form action="actionEditKaryawan" method="GET">
                 <table border="0">

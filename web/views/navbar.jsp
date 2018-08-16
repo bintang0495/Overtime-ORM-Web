@@ -4,9 +4,12 @@
     Author     : BINTANG
 --%>
 
+<%@page import="entities.Karyawan"%>
 <%@page import="tools.OTHibernateUtil"%>
 <%@page import="controllers.KaryawanController"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<% KaryawanController controller = new KaryawanController(OTHibernateUtil.getSessionFactory()); %>
+<% Karyawan karyawan = (Karyawan) controller.getById(session.getAttribute("id").toString()); %>
 <!DOCTYPE html>
 <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
     <div class="navbar-header">
@@ -22,12 +25,12 @@
 
     <ul class="nav navbar-top-links navbar-right">
         <li class="dropdown">
-            <a class="dropdown-toggle" data-toggle="dropdown" href="#">User Setting
+            <a class="dropdown-toggle" data-toggle="dropdown" href="#">Sealamat Datang, <%=karyawan.getNama() %>
                 <i class="fa fa-caret-down"></i>
             </a>
             <ul class="dropdown-menu">
                 <li>
-                    <a href="editKaryawan.jsp">
+                    <a href="editPassword.jsp">
                         Edit Password
                     </a>
                 </li>
@@ -63,13 +66,12 @@
                 <li>
                     <a href="#"><i class="fa fa-table fa-fw"></i>Tables<span class="fa arrow"></span></a>
                     <ul class="nav nav-second-level">
-                        <% KaryawanController controller = new KaryawanController(OTHibernateUtil.getSessionFactory()); 
-                        if(controller.RoleById("id", session.getAttribute("id_karyawan").toString())== "USR"){
+                        <% if (controller.RoleById("id", session.getAttribute("id_karyawan").toString()) != "USR") {
                         %>
                         <li>
                             <a href="dataKaryawan.jsp">Data Karyawan</a>
                         </li>
-                        <% } %>
+                        <% }%>
                         <li>
                             <a href="dataOvertime.jsp">Data Overtime</a>
                         </li>
@@ -77,7 +79,7 @@
                 </li>
 
                 <li>
-                    <a href="history.jsp"><i class="fa fa-calendar fa-fw"></i>History Overtime</a>
+                    <a href="dataHistoryOvertime.jsp"><i class="fa fa-calendar fa-fw"></i>History Overtime</a>
                 </li>
 
 
