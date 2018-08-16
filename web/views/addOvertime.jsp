@@ -10,6 +10,10 @@
 <%@page import="controllers.JenisLemburController"%>
 <%@page import="tools.OTHibernateUtil"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<% if (session.getAttribute("id_karyawan") == null) {
+        response.sendRedirect("login.jsp");
+    } else { %>
+
 <!DOCTYPE html>
 <html>
     <head>
@@ -77,7 +81,7 @@
                         <td>: </td>
                         <td><select name="cmbStatus">
                                 <%
-                                    StatusOvertimeController soc = new StatusOvertimeController(HibernateUtil.getSessionFactory());
+                                    StatusOvertimeController soc = new StatusOvertimeController(OTHibernateUtil.getSessionFactory());
 
                                     for (StatusOvertime so : soc.getAll()) {
                                 %><option value="<%= so.getId()%>"><%= so.getStatus()%></option>           
@@ -111,3 +115,5 @@
         <script src="../lib/dist/js/sb-admin-2.js"></script>
     </body>
 </html>
+
+<% } %>

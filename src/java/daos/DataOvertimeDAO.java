@@ -45,7 +45,7 @@ public class DataOvertimeDAO {
      * @return List
      */
     public List<Object> search(String category, String data){
-        return  this.fdao.get("FROM Data_overtime WHERE " +category+ " LIKE '%" +data+ "%'");
+        return  this.fdao.get("FROM Data_overtime WHERE " +category+ " LIKE '%" +data+ "%' ORDER BY id");
     }
     
     /**

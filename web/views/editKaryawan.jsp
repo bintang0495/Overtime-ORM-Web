@@ -10,6 +10,9 @@
 <%@page import="entities.Karyawan"%>
 <%@page import="controllers.KaryawanController"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<% if (session.getAttribute("id_karyawan") == null) {
+        response.sendRedirect("login.jsp");
+    } else { %>
 <!DOCTYPE html>
 <html>
     <head>
@@ -33,8 +36,7 @@
         <%@include file="navbar.jsp" %>
         <div id="page-wrapper">
             <h1>EDIT DATA KARYAWAN</h1>
-            <%            Karyawan karyawan = (Karyawan) session.getAttribute("id_editKaryawan");
-                String id = session.getAttribute("id_editKaryawan").toString();
+            <%            Karyawan karyawan = (Karyawan) session.getAttribute("id_karyawan");
             %>
             <form action="actionEditKaryawan" method="GET">
                 <table border="0">
@@ -114,3 +116,4 @@
         <script src="../lib/dist/js/sb-admin-2.js"></script>
     </body>
 </html>
+<% } %>

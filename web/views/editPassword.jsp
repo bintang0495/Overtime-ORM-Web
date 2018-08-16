@@ -5,6 +5,10 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<% if (session.getAttribute("id_karyawan") == null) {
+        response.sendRedirect("login.jsp");
+    } else {
+       %>
 <!DOCTYPE html>
 <html>
     <head>
@@ -27,27 +31,29 @@
     <body>
         <%@include file="navbar.jsp" %>
         <div id="page-wrapper">
-            <h1>Silahkan ubah password..</h1>
-            <table border="0">
-                <tbody>
-                    <tr>
-                        <td>Password Lama</td>
-                        <td>: </td>
-                        <td></td>
-                    </tr>
-                    <tr>
-                        <td>Password Baru</td>
-                        <td>: </td>
-                        <td></td>
-                    </tr>
-                    <tr>
-                        <td>Konfirmasi Password</td>
-                        <td>: </td>
-                        <td></td>
-                    </tr>
-                    <tr><input type="submit" value="Save" />Save</tr>
-                </tbody>
-            </table>
+            <form>
+                <div class="form-group row">
+                    <label for="inpPassword" class="col-sm-2 col-form-label">Password Lama</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" id="inpPassword"  placeholder="Password Lama">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="inpPasswordBaru" class="col-sm-2 col-form-label">Password Baru</label>
+                    <div class="col-sm-10">
+                        <input type="password" class="form-control" id="inpPasswordBaru" placeholder="Password Baru">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="rePasswordBaru" class="col-sm-2 col-form-label">Konfirmasi Password Baru</label>
+                    <div class="col-sm-10">
+                        <input type="password" class="form-control" id="rePasswordBaru" placeholder="Ulangi Password Baru">
+                    </div>
+                </div>
+                <div class="text-center">
+                    <input type="submit" value="Save" class="btn btn-outline-light" />
+                </div>
+            </form>
         </div>
         <!-- jQuery -->
         <script src="../lib/vendor/jquery/jquery.min.js"></script>
@@ -62,3 +68,4 @@
         <script src="../lib/dist/js/sb-admin-2.js"></script>
     </body>
 </html>
+<% }%>

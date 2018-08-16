@@ -6,6 +6,9 @@
 
 <%@page import="entities.Karyawan"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<% if (session.getAttribute("id_karyawan") == null) {
+        response.sendRedirect("login.jsp");
+    } else { %>
 <!DOCTYPE html>
 <html>
     <head>
@@ -56,3 +59,4 @@
         <script src="../lib/dist/js/sb-admin-2.js"></script>
     </body>
 </html>
+<% } %>

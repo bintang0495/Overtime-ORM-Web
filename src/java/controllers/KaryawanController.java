@@ -39,8 +39,8 @@ public class KaryawanController {
     }
     
  
-    public boolean login(String category,String username, String password){
-        Karyawan kar = (Karyawan) kdao.search(category, username).get(0);
+    public boolean login(String category,String email, String password){
+        Karyawan kar = (Karyawan) kdao.search(category, email).get(0);
         return BCrypt.checkpw(password, kar.getPassword());
     }
 

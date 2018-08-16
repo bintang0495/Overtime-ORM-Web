@@ -4,6 +4,8 @@
     Author     : BINTANG
 --%>
 
+<%@page import="tools.OTHibernateUtil"%>
+<%@page import="controllers.KaryawanController"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
@@ -25,7 +27,7 @@
             </a>
             <ul class="dropdown-menu">
                 <li>
-                    <a href="#">
+                    <a href="editKaryawan.jsp">
                         Edit Password
                     </a>
                 </li>
@@ -61,10 +63,13 @@
                 <li>
                     <a href="#"><i class="fa fa-table fa-fw"></i>Tables<span class="fa arrow"></span></a>
                     <ul class="nav nav-second-level">
-
+                        <% KaryawanController controller = new KaryawanController(OTHibernateUtil.getSessionFactory()); 
+                        if(controller.RoleById("id", session.getAttribute("id_karyawan").toString())== "USR"){
+                        %>
                         <li>
                             <a href="dataKaryawan.jsp">Data Karyawan</a>
                         </li>
+                        <% } %>
                         <li>
                             <a href="dataOvertime.jsp">Data Overtime</a>
                         </li>

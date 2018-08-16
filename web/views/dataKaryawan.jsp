@@ -8,6 +8,10 @@
 <%@page import="controllers.KaryawanController"%>
 <%@page import="entities.Karyawan"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<% if (session.getAttribute("id_karyawan") == null) {
+        response.sendRedirect("login.jsp");
+    } else {
+       %>
 <!DOCTYPE html>
 <html>
     <head>
@@ -42,60 +46,66 @@
                             <%                        KaryawanController kc = new KaryawanController(OTHibernateUtil.getSessionFactory());
                             %>
 
-                                    <div class="col-3 col-sm-2">
-                                        <select class="form-control">
-                                            <option>1</option>
-                                            <option>2</option>
-                                            <option>3</option>
-                                            <option>4</option>
-                                            <option>5</option>
-                                        </select></div>
-                                    <div class="col-6 col-sm-6"><input type="text" class="form-control" name="txtFind" value="" /></div>
-                                    <div class="col-3 col-sm-2">
-                                        <input type="submit" value="Search" class="form-control" name="btnFind" />
-                                    </div>                 
-                                    <div class="col-3 col-sm-2">
-                                        <a href="#" class="btn btn-outline btn-success"/>Tambah Data</a>
-                                    </div>                 
-                                    <br>
-                                
-                                <br>
-                                <table border="1" class="table table-striped table-bordered table-hover">
-                                    <thead>
-                                        <tr>
-                                            <th>ID</th>
-                                            <th>Nama Karyawan</th>
-                                            <th>Alamat</th>
-                                            <th>Email</th>
-                                            <th>Jenis Kelamin</th>
-                                            <th>Role </th>
-                                            <th>Aksi</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <%
-                                            for (Karyawan kar : kc.getAllSort("id", "asc")) {
-                                        %>
-                                        <tr>
+                            <div class="col-3 col-sm-2">
+                                <select class="form-control">
+                                    <option>1</option>
+                                    <option>2</option>
+                                    <option>3</option>
+                                    <option>4</option>
+                                    <option>5</option>
+                                </select></div>
+                            <div >
+                                <span class="col-6 col-sm-6"><input type="text" class="form-control" name="txtFind" value="" /></span>
+                                <span class="col-3 col-sm-2"> <input type="submit" value="Search" class="form-control" name="btnFind" /></span>
+                                <span class="col-3 col-sm-2"><a href="#" class="btn btn-outline btn-success"/>Tambah Data</a></span>
 
-                                            <td><%= kar.getId()%></td>
-                                            <td><%= kar.getNama()%></td>
-                                            <td><%=kar.getAlamat()%></td>
-                                            <td><%=kar.getEmail()%></td>
-                                            <td><%=kar.getJenisKelamin()%></td>
-                                            <td><%= kar.getIdRole().getNama()%></td>
-                                            <td>
-                                                <span><a class="btn btn-outline btn-success" href="../editKaryawanView?id=<%= kar.getId()%>">Edit</a></span>
-                                                <span><a class="btn btn-outline btn-info" href="../detailKaryawanView?id=<%= kar.getId()%>">Detail</a></span>
-                                                <span><a class="btn btn-outline btn-danger" href="#">Delete</a></span>
-                                            </td>
-                                        </tr>
-                                        <%
+                            </div>                
+                            <br>
 
+                            <br>
+                            <table border="1" class="table table-striped table-bordered table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Nama Karyawan</th>
+                                        <th>Alamat</th>
+                                        <th>Email</th>
+                                        <th>Jenis Kelamin</th>
+                                        <th>Role </th>
+                                            <% if (kc.RoleById("id", session.getAttribute("id_karyawan").toString()) == "ADM") { %>
+                                        <th>Aksi</th>
+                                            <%
+                                                }
+                                            %>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <%
+                                        for (Karyawan kar : kc.getAllSort("id", "asc")) {
+                                    %>
+                                    <tr>
+
+                                        <td><%= kar.getId()%></td>
+                                        <td><%= kar.getNama()%></td>
+                                        <td><%=kar.getAlamat()%></td>
+                                        <td><%=kar.getEmail()%></td>
+                                        <td><%=kar.getJenisKelamin()%></td>
+                                        <td><%= kar.getIdRole().getNama()%></td>
+                                        <% if (kc.RoleById("id", session.getAttribute("id_karyawan").toString()) == "ADM") {%>
+                                        <td>
+                                            <span><a class="btn btn-outline btn-success" href="../editKaryawanView?id=<%= kar.getId()%>">Edit</a></span>
+                                            <span><a class="btn btn-outline btn-info" href="../detailKaryawanView?id=<%= kar.getId()%>">Detail</a></span>
+                                            <span><a class="btn btn-outline btn-danger" href="#">Delete</a></span>
+                                        </td>
+                                        <%
                                             }
                                         %>
-                                    </tbody>
-                                </table>
+                                    </tr>
+                                    <%
+                                        }
+                                    %>
+                                </tbody>
+                            </table>
                         </main>
                     </div>
                 </div>
@@ -117,3 +127,6 @@
 
     </body>
 </html>
+<%
+    }
+%>
