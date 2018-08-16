@@ -39,7 +39,6 @@
                 <div class="container">
                     <div class="row">
                         <main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
-
                             <%
                                 DataOvertimeController overtimeController = new DataOvertimeController(OTHibernateUtil.getSessionFactory());
                                 KaryawanController karyawanController = new KaryawanController(OTHibernateUtil.getSessionFactory());
@@ -93,7 +92,7 @@
                             </table>
                         </main>
                     </div>
-            
+                </div>
         </div>
         <!-- jQuery -->
         <script src="../lib/vendor/jquery/jquery.min.js"></script>
