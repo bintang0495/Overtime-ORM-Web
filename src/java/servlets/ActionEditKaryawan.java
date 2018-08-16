@@ -14,6 +14,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import org.mindrot.jbcrypt.BCrypt;
 import tools.OTHibernateUtil;
 
@@ -44,18 +45,31 @@ public class ActionEditKaryawan extends HttpServlet {
         String gaji = request.getParameter("txtGaji");
         String email = request.getParameter("txtEmail");
         String jk = request.getParameter("txtJenisKelamin");
-        String password = request.getParameter("txtPassword");
+        HttpSession session = request.getSession();
         String salt = BCrypt.gensalt(12);
         try (PrintWriter out = response.getWriter()) {
             KaryawanController kc = new KaryawanController(OTHibernateUtil.getSessionFactory());
             SimpleDateFormat formatTanggal = new SimpleDateFormat("MM-dd-yyyy");
             Date tanggalLahir = formatTanggal.parse(tglLahir);
             Date tanggalMasuk = formatTanggal.parse(tglMasuk);
-            if(kc.saveOrEdit(id, nama, tanggalLahir, tanggalMasuk, alamat, gaji, email, email, BCrypt.hashpw(password, salt), role)){
-                out.println("Berhasil edit, selamaaaaat!");
+            if (id == "" || id == null
+                    || role == "" || role == null
+                    || nama == "" || nama == null
+                    || tglLahir == "" || tglLahir == null
+                    || tglMasuk == "" || tglMasuk == null
+                    || alamat == "" || alamat == null
+                    || gaji == "" || gaji == null
+                    || email == "" || email == null
+                    || jk == "" || jk == null) {
+                    session.setAttribute("message", "Isikan data terlebih dahulu");
             } else {
-                out.println("Gagal, kasian deh~");
+                if (kc.saveOrEdit(id, nama, tanggalLahir, tanggalMasuk, alamat, gaji, email, email, BCrypt.hashpw(password, salt), role)) {
+                    session.setAttribute("message", "Data berhasil diubah");
+                } else {
+                    session.setAttribute("message", "Data gagal diubah");
+                }
             }
+            response.sendRedirect("views/editKaryawan");
         }
     }
 

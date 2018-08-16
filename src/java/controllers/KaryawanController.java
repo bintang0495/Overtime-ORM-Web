@@ -38,17 +38,22 @@ public class KaryawanController {
         return this.kdao.insertOrUpdate(karyawan);
     }
     
-    
-    public boolean login(String id, String password){
-        Karyawan kar = (Karyawan) kdao.getJobById(id);
-        return BCrypt.checkpw(password, kar.getPassword());
-    }
-    
+ 
     public boolean login(String category,String username, String password){
         Karyawan kar = (Karyawan) kdao.search(category, username).get(0);
         return BCrypt.checkpw(password, kar.getPassword());
     }
 
+    public Karyawan getIdByCategory(String category, String value){
+        Karyawan kar = (Karyawan) kdao.search(category, value).get(0);
+        return this.kdao.getKaryawanById(kar.getId().toString());
+    }
+    
+    public String RoleById(String category, String id){
+        Karyawan kar = (Karyawan) kdao.search(category, id).get(0);
+        return kar.getIdRole().getId();
+    }
+    
     
     private List<Karyawan> convertToListJob(List<Object> dataAwal) {
         List<Karyawan> dataKaryawan = new ArrayList<>();
@@ -68,6 +73,6 @@ public class KaryawanController {
     }
     
     public Karyawan getById(String karyawanId){
-        return this.kdao.getJobById(karyawanId);
+        return this.kdao.getKaryawanById(karyawanId);
     }
 }

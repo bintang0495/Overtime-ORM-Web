@@ -53,7 +53,7 @@ public class KaryawanDAO {
      * @param karyawanId
      * @return 
      */
-    public Karyawan getJobById(String karyawanId){
+    public Karyawan getKaryawanById(String karyawanId){
         return (Karyawan) this.fdao.getById("FROM Karyawan WHERE id ='" +karyawanId+ "'");
     }
 }

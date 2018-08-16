@@ -6,27 +6,79 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-<nav class="col-md-2 d-none d-md-block bg-light sidebar">
-    <div class="sidebar-sticky">
-        <ul class="nav flex-column">
-            <li class="nav-item">
-                <a class="nav-link active" href="index.html">
-                    <span data-feather="home"></span> Dashboard <span class="sr-only">(current)</span>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="views/dataKaryawan.jsp"><span data-feather="file"></span>Data Karyawan</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="views/dataOvertime.jsp"><span data-feather="file"></span>Data Overtime</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="views/dataWaitingApproval.jsp"><span data-feather="file"></span>Waiting Approval</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="views/dataHistoryOvertime.jsp"><span data-feather="file"></span>History Overtime</a>
-            </li>
-
-        </ul>
+<nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="home.jsp">Overtime</a>
     </div>
+    <!-- /.navbar-header -->
+
+    <ul class="nav navbar-top-links navbar-right">
+        <li class="dropdown">
+            <a class="dropdown-toggle" data-toggle="dropdown" href="#">User Setting
+                <i class="fa fa-caret-down"></i>
+            </a>
+            <ul class="dropdown-menu">
+                <li>
+                    <a href="#">
+                        Edit Password
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        Logout
+                    </a>
+                </li>
+
+            </ul>
+            <!-- /.dropdown-messages -->
+        </li>
+
+        <!-- /.dropdown -->
+    </ul>
+    <!-- /.navbar-top-links -->
+
+    <div class="navbar-default sidebar" role="navigation">
+        <div class="sidebar-nav navbar-collapse">
+            <ul class="nav" id="side-menu">
+                <li class="sidebar-search">
+                    <div class="input-group custom-search-form">
+                        <input type="text" class="form-control" placeholder="Search...">
+                        <span class="input-group-btn">
+                            <button class="btn btn-default" type="button">
+                                <i class="fa fa-search"></i>
+                            </button>
+                        </span>
+                    </div>
+                    <!-- /input-group -->
+                </li>
+
+                <li>
+                    <a href="#"><i class="fa fa-table fa-fw"></i>Tables<span class="fa arrow"></span></a>
+                    <ul class="nav nav-second-level">
+
+                        <li>
+                            <a href="dataKaryawan.jsp">Data Karyawan</a>
+                        </li>
+                        <li>
+                            <a href="dataOvertime.jsp">Data Overtime</a>
+                        </li>
+                    </ul>
+                </li>
+
+                <li>
+                    <a href="history.jsp"><i class="fa fa-calendar fa-fw"></i>History Overtime</a>
+                </li>
+
+
+            </ul>
+        </div>
+        <!-- /.sidebar-collapse -->
+    </div>
+    <!-- /.navbar-static-side -->
 </nav>

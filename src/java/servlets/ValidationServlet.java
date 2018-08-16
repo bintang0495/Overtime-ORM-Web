@@ -46,14 +46,14 @@ public class ValidationServlet extends HttpServlet {
         RequestDispatcher dispatcher = null;
         KaryawanController kc = new KaryawanController(OTHibernateUtil.getSessionFactory());
         try (PrintWriter out = response.getWriter()) {
-            session.setAttribute("email", email);
             if (email == "" || email == null || password == "" || password == null) {
-                out.println("Isikan Email/Password");
+                out.println("Gagal");
             } else {
                 if (kc.login("email", email, password)) {
+                    
+                    session.setAttribute("id_karyawan", kc.getIdByCategory("email", email).getId());
                     response.sendRedirect("views/home.jsp");
                 } else {
-                    
                     response.sendRedirect("views/login.jsp");
                 }
 

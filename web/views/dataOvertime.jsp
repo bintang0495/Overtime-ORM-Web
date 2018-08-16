@@ -5,32 +5,38 @@
 --%>
 
 <%@page import="entities.DataOvertime"%>
-<%@page import="tools.HibernateUtil"%>
+<%@page import="tools.OTHibernateUtil"%>
 <%@page import="controllers.DataOvertimeController"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
     <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>Data Overtime</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <!--Style Bootstrap-->
-        <link rel="stylesheet" href="../bootstrap/css/bootstrap.min.css">
+        <!-- Bootstrap Core CSS -->
+        <link href="../lib/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 
-        <!--Style Custom-->
-        <!--<link rel="stylesheet" href="bootstrap/css/custom.css">-->
-        <link rel="stylesheet" href="../bootstrap/css/dashboard.css">
+        <!-- MetisMenu CSS -->
+        <link href="../lib/vendor/metisMenu/metisMenu.min.css" rel="stylesheet">
+
+        <!-- Custom CSS -->
+        <link href="../lib/dist/css/sb-admin-2.css" rel="stylesheet">
+
+        <!-- Custom Fonts -->
+        <link href="../lib/vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
     </head>   
     <body>
-        <%@include file="navbarhead.jsp" %>
+        <%@include file="navbar.jsp" %>
 
-        <div class="container-fluid">
+        <div class="container-fluid" id="page-wrapper">
             <div class="row">
-                <%@include file="navbar.jsp" %>
+                
                 <main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
 
                     <%
-                        DataOvertimeController overtimeController = new DataOvertimeController(HibernateUtil.getSessionFactory());
+                        DataOvertimeController overtimeController = new DataOvertimeController(OTHibernateUtil.getSessionFactory());
                     %>
                     <h1>Karyawan</h1>
                     <select name="cmbCategory">
@@ -78,21 +84,17 @@
                 </main>
             </div>
         </div>
-        <!--jQuery lokal -->
-        <script src="../bootstrap/js/popper.min.js"></script>
-        <script src="../bootstrap/js/jquery-slim.min.js"></script>
-        <script src="../bootstrap/js/bootstrap.min.js"></script>
+                        
+        <!-- jQuery -->
+        <script src="../lib/vendor/jquery/jquery.min.js"></script>
 
-        <!--Custom JS--> 
-        <!--<script src="../bootstrap/js/modal.js"></script>-->
-        <script src="../bootstrap/js/custom.js"></script>
-        <!--jQuery lokal -->
-        <script src="../bootstrap/js/popper.min.js"></script>
-        <script src="../bootstrap/js/jquery-slim.min.js"></script>
-        <script src="../bootstrap/js/bootstrap.min.js"></script>
+        <!-- Bootstrap Core JavaScript -->
+        <script src="../lib/vendor/bootstrap/js/bootstrap.min.js"></script>
 
-        <!--Custom JS--> 
-        <!--<script src="../bootstrap/js/modal.js"></script>-->
-        <script src="../bootstrap/js/custom.js"></script>
+        <!-- Metis Menu Plugin JavaScript -->
+        <script src="../lib/vendor/metisMenu/metisMenu.min.js"></script>
+
+        <!-- Custom Theme JavaScript -->
+        <script src="../lib/dist/js/sb-admin-2.js"></script>
     </body>
 </html>

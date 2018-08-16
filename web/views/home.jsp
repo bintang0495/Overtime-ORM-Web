@@ -8,56 +8,45 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>Home</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <!--Style Bootstrap-->
-        <link rel="stylesheet" href="../bootstrap/css/bootstrap.min.css">
+        <!-- Bootstrap Core CSS -->
+        <link href="../lib/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 
-        <!--Style Custom-->
-        <!--<link rel="stylesheet" href="bootstrap/css/custom.css">-->
-        <link rel="stylesheet" href="../bootstrap/css/dashboard.css">
+        <!-- MetisMenu CSS -->
+        <link href="../lib/vendor/metisMenu/metisMenu.min.css" rel="stylesheet">
+
+        <!-- Custom CSS -->
+        <link href="../lib/dist/css/sb-admin-2.css" rel="stylesheet">
+
+        <!-- Custom Fonts -->
+        <link href="../lib/vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
     </head>   
     <body>
         
-        <nav class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0">
-            <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="#">Menu</a>
-            <ul class="navbar-nav px-3">
-                <li class="nav-item text-nowrap">
-                    <a class="nav-link" href="#">Cari</a>
-                </li>
-            </ul>
-        </nav>
-
-        <div class="container-fluid">
-            <div class="row">
-                <%@include file="navbar.jsp" %>
-                <main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
+            <%@include file="navbar.jsp" %>
+            <div id="page-wrapper">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <h1 class="page-header">Selamat Datang..</h1>
+                    </div>
                     
-                    
-                    <% out.println(session.getAttribute("email")); %>
-                    
-                    
-                    
-                </main>
+                </div>
             </div>
-        </div>
+  
 
-         <!--jQuery lokal -->
-        <script src="../bootstrap/js/popper.min.js"></script>
-        <script src="../bootstrap/js/jquery-slim.min.js"></script>
-        <script src="../bootstrap/js/bootstrap.min.js"></script>
+        <!-- jQuery -->
+        <script src="../lib/vendor/jquery/jquery.min.js"></script>
 
-        <!--Custom JS--> 
-        <!--<script src="../bootstrap/js/modal.js"></script>-->
-        <script src="../bootstrap/js/custom.js"></script>
-        <!--jQuery lokal -->
-        <script src="../bootstrap/js/popper.min.js"></script>
-        <script src="../bootstrap/js/jquery-slim.min.js"></script>
-        <script src="../bootstrap/js/bootstrap.min.js"></script>
+        <!-- Bootstrap Core JavaScript -->
+        <script src="../lib/vendor/bootstrap/js/bootstrap.min.js"></script>
 
-        <!--Custom JS--> 
-        <!--<script src="../bootstrap/js/modal.js"></script>-->
-        <script src="../bootstrap/js/custom.js"></script>
+        <!-- Metis Menu Plugin JavaScript -->
+        <script src="../lib/vendor/metisMenu/metisMenu.min.js"></script>
+
+        <!-- Custom Theme JavaScript -->
+        <script src="../lib/dist/js/sb-admin-2.js"></script>
     </body>
 </html>
