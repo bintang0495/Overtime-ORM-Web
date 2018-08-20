@@ -7,9 +7,11 @@ package tools;
 
 import controllers.DataOvertimeController;
 import controllers.KaryawanController;
+import entities.DataOvertime;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import org.apache.tomcat.util.codec.binary.StringUtils;
 import org.mindrot.jbcrypt.BCrypt;
 
 /**
@@ -38,9 +40,14 @@ public class Tester {
     public static void main(String[] args) {
 //        System.out.println(OTHibernateUtil.getSessionFactory());
         DataOvertimeController controller = new DataOvertimeController(OTHibernateUtil.getSessionFactory());
-        Date date = new Date();
-//        controller.saveOrEdit("1", date, date, date, "", "", "1", "3", "1");
-        System.out.println("1+1 = "+2);
+        String id = controller.getById("1").getId().toString();
+        if(id.isEmpty()){
+            System.out.println("Kamu kurang berdoa");
+        }else{
+            System.out.println("Kamu harus berdoa");
+        }
+//        controller.saveOrEdit("1", date, date, date, "Mengerjakan fungsi add dan edit karyawan", "1000", "1", "3", "1");
+//        System.out.println("1+1 = "+2);
         
 //        String password1 = "dayinta";
 //        String password2 = "admin";

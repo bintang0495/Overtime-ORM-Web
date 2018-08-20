@@ -35,7 +35,7 @@ public class StatusOvertimeDAO {
      * @return List
      */
     public List<Object> getAll(){
-        return this.fdao.get("FROM Status_overtime");
+        return this.fdao.get("FROM StatusOvertime");
     }
     
     /**
@@ -45,7 +45,7 @@ public class StatusOvertimeDAO {
      * @return List
      */
     public List<Object> search(String category, String data){
-        return  this.fdao.get("FROM Status_overtime WHERE " +category+ " LIKE '%" +data+ "%'");
+        return  this.fdao.get("FROM StatusOvertime WHERE " +category+ " LIKE '%" +data+ "%'");
     }
     
     /**
@@ -54,6 +54,6 @@ public class StatusOvertimeDAO {
      * @return 
      */
     public StatusOvertime getStatusById(String statusId){
-        return (StatusOvertime) this.fdao.getById("FROM Status_overtime WHERE id ='" +statusId+ "'");
+        return (StatusOvertime) this.fdao.getById("FROM StatusOvertime WHERE id ='" +statusId+ "'");
     }
 }

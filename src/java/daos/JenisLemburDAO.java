@@ -35,7 +35,7 @@ public class JenisLemburDAO {
      * @return List
      */
     public List<Object> getAll(){
-        return this.fdao.get("FROM Jenis_lembur");
+        return this.fdao.get("FROM JenisLembur");
     }
     
     /**
@@ -45,15 +45,15 @@ public class JenisLemburDAO {
      * @return List
      */
     public List<Object> search(String category, String data){
-        return  this.fdao.get("FROM Jenis_lembur WHERE " +category+ " LIKE '%" +data+ "%'");
+        return  this.fdao.get("FROM JenisLembur WHERE " +category+ " LIKE '%" +data+ "%'");
     }
     
     /**
      * Fungsi yang digunakan untuk mendapatkan data jenis lembur berdasarkan Id
-     * @param roleId
+     * @param jenisId
      * @return 
      */
     public JenisLembur getJenisLemburById(String jenisId){
-        return (JenisLembur) this.fdao.getById("FROM Jenis_lembur WHERE idJenisLembur ='" +jenisId+ "'");
+        return (JenisLembur) this.fdao.getById("FROM JenisLembur WHERE idJenisLembur ='" +jenisId+ "'");
     }
 }

@@ -54,7 +54,7 @@ public class ValidationServlet extends HttpServlet {
                 out.println("Isikan Email/password");
             } else {
                 if (kc.login("email", email, password)) {
-                    session.setAttribute("id", kc.getIdByCategory("email", email).getId());
+                    session.setAttribute("id", kc.getByCategory("email", email).getId());
                     response.sendRedirect("views/home.jsp");
                 } else {
                     response.sendRedirect("views/login.jsp");

@@ -43,13 +43,14 @@ public class KaryawanController {
         int newId = Integer.parseInt(data.getId().toString())+1;
         return newId+"";
     }
+    
  
     public boolean login(String category,String email, String password){
         Karyawan kar = (Karyawan) kdao.search(category, email).get(0);
         return BCrypt.checkpw(password, kar.getPassword());
     }
 
-    public Karyawan getIdByCategory(String category, String value){
+    public Karyawan getByCategory(String category, String value){
         Karyawan kar = (Karyawan) kdao.search(category, value).get(0);
         return this.kdao.getKaryawanById(kar.getId().toString());
     }

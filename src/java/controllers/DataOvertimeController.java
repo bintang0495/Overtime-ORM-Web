@@ -50,13 +50,21 @@ public class DataOvertimeController {
         return this.dodao.insertOrUpdate(dataOvertime);
     }
 
-    private List<DataOvertime> convertToListJob(List<Object> dataAwal) {
+    private List<DataOvertime> convertToListDataOvertime(List<Object> dataAwal) {
         List<DataOvertime> dataOvertime = new ArrayList<>();
         for (Object object : dataAwal) {
             DataOvertime dataOvertime1 = (DataOvertime) object;
             dataOvertime.add(dataOvertime1);
         }
         return dataOvertime;
+    }
+    
+    
+    
+    public String getMaxId(){
+        DataOvertime data = (DataOvertime) dodao.getAllByIdSorting("desc").get(0);
+        int newId = Integer.parseInt(data.getId().toString())+1;
+        return data.getId().toString();
     }
     
     public String getAutoId(){
@@ -66,11 +74,11 @@ public class DataOvertimeController {
     }
     
     public List<DataOvertime> getAll() {
-        return this.convertToListJob(this.dodao.getAll());
+        return this.convertToListDataOvertime(this.dodao.getAll());
     }
 
     public List<DataOvertime> search(String category, String data) {
-        return this.convertToListJob(this.dodao.search(category, data));
+        return this.convertToListDataOvertime(this.dodao.search(category, data));
     }
     
     public DataOvertime getById(String overtimeId){

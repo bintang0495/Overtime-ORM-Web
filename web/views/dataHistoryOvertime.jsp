@@ -9,7 +9,8 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <% if (session.getAttribute("id") == null) {
         response.sendRedirect("login.jsp");
-    } else { %>
+    } else {
+%>
 <!DOCTYPE html>
 <html>
     <head>
@@ -36,63 +37,68 @@
                 <div class="col-lg-12">
                     <h1 class="page-header">Data Overtime</h1>
                 </div>
-                <div class="container">
-                    <div class="row">
-                        <main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
-                            <%
-                                DataOvertimeController overtimeController = new DataOvertimeController(OTHibernateUtil.getSessionFactory());
-                                KaryawanController karyawanController = new KaryawanController(OTHibernateUtil.getSessionFactory());
-                            %>
-                            <div class="col-3 col-sm-2">
-                                <select class="form-control">
-                                    <option>1</option>
-                                    <option>2</option>
-                                    <option>3</option>
-                                    <option>4</option>
-                                    <option>5</option>
-                                </select></div>
-                            <div >
-                                <span class="col-6 col-sm-6"><input type="text" class="form-control" name="txtFind" value="" /></span>
-                                <span class="col-3 col-sm-2"> <input type="submit" value="Search" class="form-control" name="btnFind" /></span>
-                                <span class="col-3 col-sm-2"><a href="#" class="btn btn-outline btn-success"/>Tambah Data</a></span>
+                <div class="col-lg-12">
 
-                            </div>                
-                            <br>
+                    <%
+                        DataOvertimeController overtimeController = new DataOvertimeController(OTHibernateUtil.getSessionFactory());
+                        KaryawanController karyawanController = new KaryawanController(OTHibernateUtil.getSessionFactory());
+                    %>
+                    <div class="col-3 col-sm-2">
+                        <select class="form-control">
+                            <option value="1">Januari</option>
+                            <option value="2">Februari</option>
+                            <option value="3">Maret</option>
+                            <option value="4">April</option>
+                            <option value="5">Mei</option>
+                            <option value="6">Juni</option>
+                            <option value="7">Juli</option>
+                            <option value="8">Agustus</option>
+                            <option value="9">September</option>
+                            <option value="10">Oktober</option>
+                            <option value="11">November</option>
+                            <option value="12">Desember</option>
+                        </select></div>
+                    <div >
+                        <span class="col-6 col-sm-6"><input type="text" class="form-control" name="txtFind" value="" /></span>
+                        <span class="col-3 col-sm-2"> <input type="submit" value="Search" class="form-control" name="btnFind" /></span>
 
-                            <table class="table table-striped table-bordered table-hover">
-                                <thead>
-                                    <tr>
-                                        <th>ID</th>
-                                        <th>Nama Karyawan</th>
-                                        <th>Tanggal Lembur</th>
-                                        <th>Jam Berangkat</th>
-                                        <th>Jam Pulang</th>
-                                        <th>Keterangan</th>
-                                        <th>Status</th>
-                                        <th>Jenis Lembur</th>
-                                        <th>Upah Lembur</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <%
-                                        for (DataOvertime dataOvertime : overtimeController.search("idKaryawan", session.getAttribute("id").toString())) {
-                                    %>
-                                    <tr>
-                                        <td><%= dataOvertime.getId()%></td>
-                                        <td><%= dataOvertime.getIdKaryawan().getNama()%></td>
-                                        <td><%= dataOvertime.getJamMasuk()%></td>
-                                        <td><%=dataOvertime.getJamPulang()%></td>
-                                        <td><%=dataOvertime.getKeterangan()%></td>
-                                        <td><%=dataOvertime.getIdStatus().getStatus()%></td>
-                                        <td><%=dataOvertime.getIdJenisLembur().getJenisLembur()%></td>
-                                        <td><%=dataOvertime.getUpahLembur()%></td>
-                                    </tr>
-                                    <% } %>
-                                </tbody>
-                            </table>
-                        </main>
-                    </div>
+                    </div>                
                 </div>
+                    <br>
+                <div class="col-lg-12">
+                    <table class="table table-striped table-bordered table-hover">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Nama Karyawan</th>
+                                <th>Tanggal Lembur</th>
+                                <th>Jam Berangkat</th>
+                                <th>Jam Pulang</th>
+                                <th>Keterangan</th>
+                                <th>Status</th>
+                                <th>Jenis Lembur</th>
+                                <th>Upah Lembur</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <%
+                                for (DataOvertime dataOvertime : overtimeController.search("idKaryawan", session.getAttribute("id").toString())) {
+                            %>
+                            <tr>
+                                <td><%= dataOvertime.getId()%></td>
+                                <td><%= dataOvertime.getIdKaryawan().getNama()%></td>
+                                <td><%= dataOvertime.getJamMasuk()%></td>
+                                <td><%=dataOvertime.getJamPulang()%></td>
+                                <td><%=dataOvertime.getKeterangan()%></td>
+                                <td><%=dataOvertime.getIdStatus().getStatus()%></td>
+                                <td><%=dataOvertime.getIdJenisLembur().getJenisLembur()%></td>
+                                <td><%=dataOvertime.getUpahLembur()%></td>
+                            </tr>
+                            <% } %>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
         <!-- jQuery -->
         <script src="../lib/vendor/jquery/jquery.min.js"></script>
@@ -107,4 +113,4 @@
         <script src="../lib/dist/js/sb-admin-2.js"></script>
     </body>
 </html>
-<% } %>
+<% }%>

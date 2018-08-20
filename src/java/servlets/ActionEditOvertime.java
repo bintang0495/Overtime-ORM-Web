@@ -44,12 +44,18 @@ public class ActionEditOvertime extends HttpServlet {
         String jenisLembur = request.getParameter("cmbJenisLembur");
         String ket = request.getParameter("txtKeterangan");
         Date date = new Date();
-        String id = controller.getAutoId();
+        String id = controller.getMaxId();
         
         try (PrintWriter out = response.getWriter()) {
+            if(id.isEmpty()){
+                out.println("Kosong");
+            }else{
+                out.println("Isi");
+            }
 //            if (controller.saveOrEdit(id, date, date, date, ket, 0, email, jk, BCrypt.hashpw(password, salt), role)) {
-                response.sendRedirect("views/dataKaryawan.jsp");
+//                response.sendRedirect("views/dataKaryawan.jsp");
 //            } else {
+//            
 //            }
         } catch (Exception ex) {
             Logger.getLogger(ActionEditKaryawan.class.getName()).log(Level.SEVERE, null, ex);
