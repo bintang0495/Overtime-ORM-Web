@@ -38,6 +38,16 @@ public class DataOvertimeDAO {
         return this.fdao.get("FROM Data_overtime ORDER BY id");
     }
     
+    
+    public List<Object> getAllByIdSorting(String sort){
+        return this.fdao.get("FROM Data_overtime ORDER BY id "+sort);
+    }
+    
+    public List<Object> getAllByCategorySorting(String category, String data, String sort){
+        return this.fdao.get("FROM Data_overtime WHERE "+category+" = "+data+" ORDER BY id "+sort);
+    }
+    
+    
     /**
      * Fungsi yang digunakan untuk mencari data overtime
      * @param category - what column we will find
@@ -53,7 +63,7 @@ public class DataOvertimeDAO {
      * @param dataId
      * @return 
      */
-    public DataOvertime getJobById(String dataId){
+    public DataOvertime getDataOvertimebById(String dataId){
         return (DataOvertime) this.fdao.getById("FROM Data_overtime WHERE id ='" +dataId+ "'");
     }
 }

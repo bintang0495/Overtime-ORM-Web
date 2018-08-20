@@ -5,10 +5,13 @@
  */
 package servlets;
 
+import controllers.DataOvertimeController;
 import controllers.KaryawanController;
+import entities.DataOvertime;
 import entities.Karyawan;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.math.BigDecimal;
 import java.util.Date;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -45,6 +48,7 @@ public class ValidationServlet extends HttpServlet {
         HttpSession session = request.getSession();
         RequestDispatcher dispatcher = null;
         KaryawanController kc = new KaryawanController(OTHibernateUtil.getSessionFactory());
+//        DataOvertimeController doc = new DataOvertimeController(OTHibernateUtil.getSessionFactory());
         try (PrintWriter out = response.getWriter()) {
             if (email == "" || email == null || password == "" || password == null) {
                 out.println("Isikan Email/password");

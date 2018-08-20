@@ -53,7 +53,7 @@ public class JenisLemburDAO {
      * @param roleId
      * @return 
      */
-    public JenisLembur getJobById(String jenisId){
-        return (JenisLembur) this.fdao.getById("FROM Jenis_lembur WHERE id_jenis_lembur ='" +jenisId+ "'");
+    public JenisLembur getJenisLemburById(String jenisId){
+        return (JenisLembur) this.fdao.getById("FROM Jenis_lembur WHERE idJenisLembur ='" +jenisId+ "'");
     }
 }

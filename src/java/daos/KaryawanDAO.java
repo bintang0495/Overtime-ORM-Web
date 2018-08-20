@@ -21,6 +21,10 @@ public class KaryawanDAO {
         this.fdao = new FunctionDAO(factory);
     }
     
+    public List<Object> getAllByIdSorting(String sort){
+        return this.fdao.get("FROM Karyawan ORDER BY id "+sort);
+    }
+    
     /**
      * Fungsi yang digunakan untuk menambahkan dan mengedit data karyawan
      * @param karyawan

@@ -14,7 +14,7 @@
     </servlet>
     <servlet>
         <servlet-name>ActionTambahServlet</servlet-name>
-        <servlet-class>servlets.ActionTambahhServlet</servlet-class>
+        <servlet-class>servlets.ActionTambahServlet</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>DataKaryawanView</servlet-name>
@@ -35,6 +35,14 @@
     <servlet>
         <servlet-name>ValidationServlet</servlet-name>
         <servlet-class>servlets.ValidationServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ActionLogout</servlet-name>
+        <servlet-class>servlets.ActionLogout</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>TolakOvertime</servlet-name>
+        <servlet-class>servlets.TolakOvertime</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>ActionEditKaryawan</servlet-name>
@@ -71,6 +79,14 @@
     <servlet-mapping>
         <servlet-name>ValidationServlet</servlet-name>
         <url-pattern>/validationServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ActionLogout</servlet-name>
+        <url-pattern>/actionLogout</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>TolakOvertime</servlet-name>
+        <url-pattern>/tolakOvertime</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

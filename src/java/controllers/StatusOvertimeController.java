@@ -35,7 +35,7 @@ public class StatusOvertimeController {
         return this.overtimeDAO.insertOrUpdate(overtime);
     }
 
-    private List<StatusOvertime> convertToListJob(List<Object> dataAwal) {
+    private List<StatusOvertime> convertToListStatus(List<Object> dataAwal) {
         List<StatusOvertime> dataStatus = new ArrayList<>();
         for (Object object : dataAwal) {
             StatusOvertime overtime = (StatusOvertime)object;
@@ -45,14 +45,14 @@ public class StatusOvertimeController {
     }
     
     public List<StatusOvertime> getAll() {
-        return this.convertToListJob(this.overtimeDAO.getAll());
+        return this.convertToListStatus(this.overtimeDAO.getAll());
     }
 
     public List<StatusOvertime> search(String category, String data) {
-        return this.convertToListJob(this.overtimeDAO.search(category, data));
+        return this.convertToListStatus(this.overtimeDAO.search(category, data));
     }
     
     public StatusOvertime getById(String statusId){
-        return this.overtimeDAO.getJobById(statusId);
+        return this.overtimeDAO.getStatusById(statusId);
     }
 }

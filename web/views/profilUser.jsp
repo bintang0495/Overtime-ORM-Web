@@ -1,11 +1,10 @@
 <%-- 
-    Document   : detailKaryawan
-    Created on : Aug 14, 2018, 10:41:04 AM
-    Author     : AINAN
+    Document   : profilUser
+    Created on : Aug 20, 2018, 6:30:32 AM
+    Author     : BINTANG
 --%>
 
 <%@page import="java.text.SimpleDateFormat"%>
-<%@page import="java.text.DateFormat"%>
 <%@page import="entities.Karyawan"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <% if (session.getAttribute("id") == null) {
@@ -33,16 +32,17 @@
     </head>
     <body>
         <%@include file="navbar.jsp" %>
+        <%
+            Karyawan kar = (Karyawan) controller.getById(session.getAttribute("id").toString());
+
+        %>
         <div id="page-wrapper">
             <div class="container">
                 <div class="col-lg-12">
-                    <h1 class="page-header"><label>DETAIL KARYAWAN</label></h1>
+                    <h1 class="page-header"><label><%= kar.getNama()%></label></h1>
                 </div>
                 <div class="col-lg-12">
-                    <%
-                        Karyawan kar = (Karyawan) controller.getById(session.getAttribute("detailKaryawanId").toString());
-                        
-                    %>
+
                     <div class="form-group row">
                         <label class="col-sm-2 col-form-label">ID Karyawan</label>
                         <div class="col-sm-4">
@@ -58,19 +58,19 @@
                     <div class="form-group row">
                         <label class="col-sm-2 col-form-label">Tanggal Lahir</label>
                         <div class="col-sm-4">
-                            <p><%= new SimpleDateFormat("dd-MM-yyyy").format(kar.getTglLahir()) %></p>
+                            <p><%= new SimpleDateFormat("dd-MM-yyyy").format(kar.getTglLahir())%></p>
                         </div>
                     </div>
                     <div class="form-group row">
                         <label class="col-sm-2 col-form-label">Tanggal Bergabung</label>
                         <div class="col-sm-4">
-                            <p><%= new SimpleDateFormat("dd-MM-yyyy").format(kar.getTglMasuk()) %></p>
+                            <p><%= new SimpleDateFormat("dd-MM-yyyy").format(kar.getTglMasuk())%></p>
                         </div>
                     </div>
                     <div class="form-group row">
                         <label class="col-sm-2 col-form-label">Tanggal Lahir</label>
                         <div class="col-sm-4">
-                            <p><%= new SimpleDateFormat("dd-MM-yyyy").format(kar.getTglLahir()) %></p>
+                            <p><%= new SimpleDateFormat("dd-MM-yyyy").format(kar.getTglLahir())%></p>
                         </div>
                     </div>
                     <div class="form-group row">
@@ -112,7 +112,10 @@
                 </div>
 
             </div>
-           
+            <br>
+            <br>
+            <br>
+            <br>
         </div>
         <!-- jQuery -->
         <script src="../lib/vendor/jquery/jquery.min.js"></script>

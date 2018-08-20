@@ -39,10 +39,9 @@ public class DetailKaryawanView extends HttpServlet {
         String id = request.getParameter("id");
         HttpSession session = request.getSession();
         RequestDispatcher dispatcher = null;
-        KaryawanController kc = new KaryawanController(OTHibernateUtil.getSessionFactory());
         
         try (PrintWriter out = response.getWriter()) {
-            session.setAttribute("id_editKaryawan", kc.getById(id));
+            session.setAttribute("detailKaryawanId",id);
             response.sendRedirect("views/detailKaryawan.jsp");
         }
     }

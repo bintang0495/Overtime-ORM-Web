@@ -6,6 +6,9 @@
 package controllers;
 
 import daos.DataOvertimeDAO;
+import daos.JenisLemburDAO;
+import daos.KaryawanDAO;
+import daos.StatusOvertimeDAO;
 import entities.DataOvertime;
 import entities.JenisLembur;
 import entities.Karyawan;
@@ -24,14 +27,26 @@ import org.hibernate.SessionFactory;
 public class DataOvertimeController {
     
     private final DataOvertimeDAO dodao;
+    private final JenisLemburDAO jldao;
+    private final KaryawanDAO kdao;
+    private final StatusOvertimeDAO sodao;
+    
+    
 
     public DataOvertimeController(SessionFactory factory) {
         this.dodao = new DataOvertimeDAO(factory);
+        this.jldao = new JenisLemburDAO(factory);
+        this.kdao = new KaryawanDAO(factory);
+        this.sodao = new StatusOvertimeDAO(factory);
     }
     
-    public boolean saveOrEdit(String id, Date tgl, Date jamMasuk, Date jamPulang, String keterangan, String upahLembur, JenisLembur idJenisLembur, Karyawan idKaryawan, StatusOvertime idStatus) {
+    public boolean saveOrEdit(String id, Date tgl, Date jamMasuk, Date jamPulang, String keterangan, String upahLembur, String idJenisLembur, String idKaryawan, String idStatus) {
+        JenisLembur jenisLembur = this.jldao.getJenisLemburById(idJenisLembur);
+        Karyawan karyawan = this.kdao.getKaryawanById(idKaryawan);
+        StatusOvertime statusOvertime = this.sodao.getStatusById(idStatus);
+             
         
-        DataOvertime dataOvertime = new DataOvertime(new BigDecimal(id), tgl, jamMasuk, jamPulang, keterangan, new BigInteger(upahLembur), idJenisLembur, idKaryawan, idStatus);
+        DataOvertime dataOvertime = new DataOvertime(new BigDecimal(id), tgl, jamMasuk, jamPulang, keterangan, new BigInteger(upahLembur), jenisLembur, karyawan, statusOvertime);
         return this.dodao.insertOrUpdate(dataOvertime);
     }
 
@@ -44,6 +59,12 @@ public class DataOvertimeController {
         return dataOvertime;
     }
     
+    public String getAutoId(){
+        DataOvertime data = (DataOvertime) dodao.getAllByIdSorting("desc").get(0);
+        int newId = Integer.parseInt(data.getId().toString())+1;
+        return newId+"";
+    }
+    
     public List<DataOvertime> getAll() {
         return this.convertToListJob(this.dodao.getAll());
     }
@@ -53,6 +74,6 @@ public class DataOvertimeController {
     }
     
     public DataOvertime getById(String overtimeId){
-        return this.dodao.getJobById(overtimeId);
+        return this.dodao.getDataOvertimebById(overtimeId);
     }
 }

@@ -38,6 +38,11 @@ public class KaryawanController {
         return this.kdao.insertOrUpdate(karyawan);
     }
     
+    public String getAutoId(){
+        Karyawan data = (Karyawan) kdao.getAllByIdSorting("desc").get(0);
+        int newId = Integer.parseInt(data.getId().toString())+1;
+        return newId+"";
+    }
  
     public boolean login(String category,String email, String password){
         Karyawan kar = (Karyawan) kdao.search(category, email).get(0);
@@ -49,13 +54,9 @@ public class KaryawanController {
         return this.kdao.getKaryawanById(kar.getId().toString());
     }
     
-    public String RoleById(String category, String id){
-        Karyawan kar = (Karyawan) kdao.search(category, id).get(0);
-        return kar.getIdRole().getId();
-    }
     
     
-    private List<Karyawan> convertToListJob(List<Object> dataAwal) {
+    private List<Karyawan> convertToListKaryawan(List<Object> dataAwal) {
         List<Karyawan> dataKaryawan = new ArrayList<>();
         for (Object object : dataAwal) {
             Karyawan karyawan = (Karyawan)object;
@@ -65,11 +66,11 @@ public class KaryawanController {
     }
     
     public List<Karyawan> getAllSort(String category,String sort) {
-        return this.convertToListJob(this.kdao.getAllSort(category, sort));
+        return this.convertToListKaryawan(this.kdao.getAllSort(category, sort));
     }
 
     public List<Karyawan> search(String category, String data) {
-        return this.convertToListJob(this.kdao.search(category, data));
+        return this.convertToListKaryawan(this.kdao.search(category, data));
     }
     
     public Karyawan getById(String karyawanId){

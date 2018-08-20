@@ -7,7 +7,7 @@
 <%@page import="entities.DataOvertime"%>
 <%@page import="controllers.DataOvertimeController"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<% if (session.getAttribute("id_karyawan") == null) {
+<% if (session.getAttribute("id") == null) {
         response.sendRedirect("login.jsp");
     } else { %>
 <!DOCTYPE html>
@@ -75,7 +75,7 @@
                                 </thead>
                                 <tbody>
                                     <%
-                                        for (DataOvertime dataOvertime : overtimeController.search("id", session.getAttribute("id_karyawan").toString())) {
+                                        for (DataOvertime dataOvertime : overtimeController.search("idKaryawan", session.getAttribute("id").toString())) {
                                     %>
                                     <tr>
                                         <td><%= dataOvertime.getId()%></td>

@@ -4,8 +4,11 @@
     Author     : BINTANG
 --%>
 
+<%@page import="controllers.DataOvertimeController"%>
+<%@page import="java.text.SimpleDateFormat"%>
+<%@page import="entities.DataOvertime"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<% if (session.getAttribute("id_karyawan") == null) {
+<% if (session.getAttribute("id") == null) {
         response.sendRedirect("login.jsp");
     } else { %>
 <!DOCTYPE html>
@@ -30,7 +33,69 @@
     <body>
         <%@include file="navbar.jsp" %>
         <div id="page-wrapper">
-            
+            <div class="row">
+                <div class="col-lg-12">
+                    <h1 class="page-header"><label>Data Overtime</label></h1>
+                </div>
+                <div class="col-lg-12">
+                    <div class="row">
+                        <main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
+
+                            <%
+                                DataOvertimeController overtimeController = new DataOvertimeController(OTHibernateUtil.getSessionFactory());
+
+                            %>
+                            <div class="col-3 col-sm-2">
+                                <select class="form-control">
+                                    <option value="idKaryawan">ID Karyawan</option>
+                                    <option value="idStatus">Status</option>
+                                </select></div>
+                            <div >
+                                <span class="col-6 col-sm-6"><input type="text" class="form-control" name="txtFind" value="" /></span>
+                                <span class="col-3 col-sm-2"> <input type="submit" value="Search" class="form-control" name="btnFind" /></span>
+
+
+                            </div>                
+                            <br>
+                            <br>
+
+                            <table border="1" class="table table-striped table-bordered table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Nama Karyawan</th>
+                                        <th>Tanggal Lembur</th>
+                                        <th>Jam Berangkat</th>
+                                        <th>Jam Pulang</th>
+                                        <th>Keterangan</th>
+                                        <th>Status</th>
+                                        <th>Jenis Lembur</th>
+                                            
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <%
+                                            for (DataOvertime dataOvertime : overtimeController.search("idStatus", "1")) {
+                                        %>
+
+                                        <td><%= dataOvertime.getId()%></td>
+                                        <td><%= dataOvertime.getIdKaryawan().getNama()%></td>
+                                        <td><%= new SimpleDateFormat("HH:mm").format(dataOvertime.getJamMasuk())%></td>
+                                        <td><%= new SimpleDateFormat("HH:mm").format(dataOvertime.getJamPulang())%></td>
+                                        <td><%=dataOvertime.getKeterangan()%></td>
+                                        <td><%=dataOvertime.getIdStatus().getStatus()%></td>
+                                        <td><%=dataOvertime.getIdJenisLembur().getJenisLembur()%></td>
+                                       
+                                        <% } %>
+                                          
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </main>
+                    </div>
+                </div>
+            </div>
             
             
         </div>

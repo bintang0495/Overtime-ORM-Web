@@ -5,12 +5,16 @@
  */
 package servlets;
 
+import controllers.KaryawanController;
+import entities.Karyawan;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.mindrot.jbcrypt.BCrypt;
+import tools.OTHibernateUtil;
 
 /**
  *
@@ -30,17 +34,27 @@ public class ActionEditPassword extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
+        String passLama = request.getParameter("passLama");
+        String passBaru = request.getParameter("passBaru");
+        String rePassBaru = request.getParameter("rePassBaru");
+        String id = request.getParameter("id");
+        String salt = BCrypt.gensalt(12);
+
+        KaryawanController kc = new KaryawanController(OTHibernateUtil.getSessionFactory());
+        Karyawan kar = kc.getById(id);
         try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet ActionEditPassword</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet ActionEditPassword at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
+            
+            if (BCrypt.checkpw(passLama, kar.getPassword())) {
+                if (passBaru.equals(rePassBaru)) {
+                    kc.saveOrEdit(id, kar.getNama(), kar.getTglLahir(), kar.getTglMasuk(), kar.getAlamat(), kar.getGaji().toString(), kar.getEmail(), kar.getJenisKelamin(), BCrypt.hashpw(passBaru, salt), kar.getIdRole().getId());
+                    response.sendRedirect("views/home.jsp");
+
+                } else {
+                    out.println("Konfirmasi password tidak sesuai");
+                }
+            } else {
+                out.println("Password lama tidak sesuai");
+            }
         }
     }
 

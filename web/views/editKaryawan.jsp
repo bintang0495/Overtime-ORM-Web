@@ -4,6 +4,8 @@
     Author     : BINTANG
 --%>
 
+<%@page import="java.text.SimpleDateFormat"%>
+<%@page import="java.text.DateFormat"%>
 <%@page import="tools.OTHibernateUtil"%>
 <%@page import="entities.Role"%>
 <%@page import="controllers.RoleController"%>
@@ -12,14 +14,15 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <% if (session.getAttribute("id") == null) {
         response.sendRedirect("login.jsp");
-    } else { %>
+    } else {
+%>
 <!DOCTYPE html>
 <html>
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>Home</title>
+        <title>Edit data karyawan</title>
         <!-- Bootstrap Core CSS -->
         <link href="../lib/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 
@@ -35,73 +38,94 @@
     <body>
         <%@include file="navbar.jsp" %>
         <div id="page-wrapper">
-            <h1>EDIT DATA KARYAWAN</h1>
-            <%            Karyawan karyawan = (Karyawan) ;
-            %>
-            <form action="actionEditKaryawan" method="GET">
-                <table border="0">
-                    <tbody>
-                        <tr>
-                            <td>ID Karyawan</td>
-                            <td>: </td>
-                            <td><input type="text" readonly name="txtPegawaiId" value="<%= karyawan.getId()%>" /></td>
-                        </tr>
-                        <tr>
-                            <td>Role</td>
-                            <td>: </td>
-                            <td><input type="text" name="txtRole" id="role" list="rolelist"  />
-                                <datalist>
-                                    <%
-                                        RoleController rc = new RoleController(OTHibernateUtil.getSessionFactory());
+            <div class="container">
+                <div class="col-lg-12">
+                    <h1 class="page-header"><label>EDIT DATA KARYAWAN</label></h1>
+                </div>
+                <%    Karyawan kar = (Karyawan) controller.getById(session.getAttribute("id_edit").toString());
+                    DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+                    String tglLahir = dateFormat.format(kar.getTglLahir());
+                    String tglMasuk = dateFormat.format(kar.getTglMasuk());
 
-                                        for (Role role : rc.getAll()) {
-                                    %><option value="<%= role.getNama()%>">         
-                                        <%    }
-                                        %>
-                                </datalist></td>
-                        </tr>
-                        <tr>
-                            <td>Nama Karyawan</td>
-                            <td>: </td>
-                            <td><input type="text" name="txtNamaPegawai" value="<%= karyawan.getNama()%>" /></td>
-                        </tr>
-                        <tr>
-                            <td>Tanggal Lahir</td>
-                            <td>: </td>
-                            <td><input type="date" name="txtTglLahir" value="<%= karyawan.getTglLahir()%>" /></td>
-                        </tr>
-                        <tr>
-                            <td>Tanggal Masuk</td>
-                            <td>: </td>
-                            <td><input type="date" name="txtTglMasuk" value="<%= karyawan.getTglMasuk()%>" /></td>
-                        </tr>
-                        <tr>
-                            <td>Alamat</td>
-                            <td>; </td>
-                            <td><input type="text" name="txtAlamat" value="<%= karyawan.getAlamat()%>" /></td>
-                        </tr>
-                        <tr>
-                            <td>Gaji</td>
-                            <td>: </td>
-                            <td><input type="text" name="txtGaji" value="<%= karyawan.getGaji()%>" /></td>
-                        </tr>
-                        <tr>
-                            <td>Email</td>
-                            <td>: </td>
-                            <td><input type="text" name="txtEmail" value="<%= karyawan.getEmail()%>" /></td>
-                        </tr>
-                        <tr>
-                            <td>Jenis Kelamin</td>
-                            <td>: </td>
-                            <td><input type="text" name="txtJenisKelamin" value="<%= karyawan.getJenisKelamin()%>" /></td>
-                        </tr>
+                %>
+                <div class="col-lg-12">
+                    <form action="../actionEditKaryawan" method="GET">
+                        <div class="form-group row">
+                            <label for="inpId" class="col-sm-2 col-form-label">ID Karyawan</label>
+                            <div class="col-sm-4">
+                                <input type="text" class="form-control" id="inpId"name="txtIdKaryawan" value="<%= kar.getId()%>" readonly>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="inpNmKaryawan" class="col-sm-2 col-form-label">Nama Karyawan</label>
+                            <div class="col-sm-6">
+                                <input type="text" class="form-control" id="inpNmKaryawan" name="txtNamaPegawai" value="<%= kar.getNama()%>" >
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="TglLahir" class="col-sm-2 col-form-label">Tanggal Lahir</label>
+                            <div class="col-sm-4">
+                                <input type="date" class="form-control" id="TglLahir" name="txtTglLahir" value="<%= tglLahir%>" >
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="role" class="col-sm-2 col-form-label">Role</label>
+                            <div class="col-sm-2">
+                                <%  RoleController rc = new RoleController(OTHibernateUtil.getSessionFactory()); %>
+                                <select name="cmbRole" class="form-control" id="role">
+                                    <% for (Role role : rc.getAll()) {%>
+                                    <option value="<%=role.getId()%>" 
+                                            <%if (kar.getIdRole().getId().equalsIgnoreCase(role.getId())) { %>selected<% }%> >
+                                        <%=role.getNama()%>
+                                    </option>
+                                    <% }%>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="TglMasuk" class="col-sm-2 col-form-label">Tanggal Bergabung</label>
+                            <div class="col-sm-4">
+                                <input type="date" class="form-control" id="TglMasuk" name="txtTglMasuk" value="<%= tglMasuk%>">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="alamat" class="col-sm-2 col-form-label">Alamat</label>
+                            <div class="col-sm-4">
+                                <textarea name="txtAlamat" id="alamat" class="form-control" ><%= kar.getAlamat()%></textarea>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="form-group">
+                                <label class="col-sm-2 col-form-label">Jenis Kelamin</label>
+                                <div class="col-sm-4">
+                                    <label class="radio-inline">
+                                        <input type="radio" name="jenisKelamin" value="L" <% if (kar.getJenisKelamin().equalsIgnoreCase("L")) {%>checked <% }%>>Laki-laki
+                                    </label>
+                                    <label class="radio-inline">
+                                        <input type="radio" name="jenisKelamin" value="P" <% if (kar.getJenisKelamin().equalsIgnoreCase("P")) {%>checked <% }%>>Perempuan
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="email" class="col-sm-2 col-form-label">Email</label>
+                            <div class="col-sm-4">
+                                <input type="text" class="form-control" id="email" name="txtEmail" value="<%= kar.getEmail()%>">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="gaji" class="col-sm-2 col-form-label">Gaji</label>
+                            <div class="col-sm-4">
+                                <input type="text" class="form-control" id="gaji" name="txtGaji" value="<%= kar.getGaji()%>" >
+                            </div>
+                        </div>
 
-                        <tr>
-                            <td colspan="3"><input type="submit" value="Save" /></td>
-                        </tr>
-                    </tbody>
-                </table>
-            </form>
+                        <div class="col-sm-6 text-center">
+                            <input type="submit" value="Save" class="btn btn-outline btn-primary" />
+                        </div>
+                    </form>
+                </div>
+            </div>
         </div>
         <!-- jQuery -->
         <script src="../lib/vendor/jquery/jquery.min.js"></script>
@@ -116,4 +140,4 @@
         <script src="../lib/dist/js/sb-admin-2.js"></script>
     </body>
 </html>
-<% } %>
+<% }%>

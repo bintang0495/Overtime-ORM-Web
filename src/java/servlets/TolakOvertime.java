@@ -5,21 +5,18 @@
  */
 package servlets;
 
-import controllers.KaryawanController;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-import tools.OTHibernateUtil;
 
 /**
  *
  * @author BINTANG
  */
-public class EditKaryawanView extends HttpServlet {
+public class TolakOvertime extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -33,14 +30,17 @@ public class EditKaryawanView extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        String id = request.getParameter("id");
-        HttpSession session = request.getSession();
-        KaryawanController kc = new KaryawanController(OTHibernateUtil.getSessionFactory());
         try (PrintWriter out = response.getWriter()) {
-            session.setAttribute("id_edit",id);
-            response.sendRedirect("views/editKaryawan.jsp");
-//            dispatcher = request.getRequestDispatcher("views/editKaryawan.jsp");
-//            dispatcher.forward(request, response);
+            /* TODO output your page here. You may use following sample code. */
+            out.println("<!DOCTYPE html>");
+            out.println("<html>");
+            out.println("<head>");
+            out.println("<title>Servlet TolakOvertime</title>");            
+            out.println("</head>");
+            out.println("<body>");
+            out.println("<h1>Servlet TolakOvertime at " + request.getContextPath() + "</h1>");
+            out.println("</body>");
+            out.println("</html>");
         }
     }
 

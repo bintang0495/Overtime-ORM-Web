@@ -5,12 +5,21 @@
  */
 package servlets;
 
+import controllers.DataOvertimeController;
+import controllers.KaryawanController;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.mindrot.jbcrypt.BCrypt;
+import tools.OTHibernateUtil;
 
 /**
  *
@@ -30,17 +39,20 @@ public class ActionEditOvertime extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
+        DataOvertimeController controller = new DataOvertimeController(OTHibernateUtil.getSessionFactory());
+        String idKaryawan = request.getParameter("id");
+        String jenisLembur = request.getParameter("cmbJenisLembur");
+        String ket = request.getParameter("txtKeterangan");
+        Date date = new Date();
+        String id = controller.getAutoId();
+        
         try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet ActionEditOvertime</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet ActionEditOvertime at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
+//            if (controller.saveOrEdit(id, date, date, date, ket, 0, email, jk, BCrypt.hashpw(password, salt), role)) {
+                response.sendRedirect("views/dataKaryawan.jsp");
+//            } else {
+//            }
+        } catch (Exception ex) {
+            Logger.getLogger(ActionEditKaryawan.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

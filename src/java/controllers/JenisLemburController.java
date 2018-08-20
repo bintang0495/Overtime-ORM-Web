@@ -28,7 +28,7 @@ public class JenisLemburController {
         return this.jldao.insertOrUpdate(jenisLembur);
     }
 
-    private List<JenisLembur> convertToListJob(List<Object> dataAwal) {
+    private List<JenisLembur> convertToListJenisLembur(List<Object> dataAwal) {
         List<JenisLembur> dataLembur = new ArrayList<>();
         for (Object object : dataAwal) {
             JenisLembur jl = (JenisLembur)object;
@@ -38,14 +38,14 @@ public class JenisLemburController {
     }
     
     public List<JenisLembur> getAll() {
-        return this.convertToListJob(this.jldao.getAll());
+        return this.convertToListJenisLembur(this.jldao.getAll());
     }
 
     public List<JenisLembur> search(String category, String data) {
-        return this.convertToListJob(this.jldao.search(category, data));
+        return this.convertToListJenisLembur(this.jldao.search(category, data));
     }
     
     public JenisLembur getById(String jenisId){
-        return this.jldao.getJobById(jenisId);
+        return this.jldao.getJenisLemburById(jenisId);
     }
 }

@@ -28,7 +28,7 @@ public class RoleController {
         return this.rdao.insertOrUpdate(role);
     }
 
-    private List<Role> convertToListJob(List<Object> dataAwal) {
+    private List<Role> convertToListRole(List<Object> dataAwal) {
         List<Role> dataRole = new ArrayList<>();
         for (Object object : dataAwal) {
             Role role = (Role)object;
@@ -38,11 +38,11 @@ public class RoleController {
     }
     
     public List<Role> getAll() {
-        return this.convertToListJob(this.rdao.getAll());
+        return this.convertToListRole(this.rdao.getAll());
     }
 
     public List<Role> search(String category, String data) {
-        return this.convertToListJob(this.rdao.search(category, data));
+        return this.convertToListRole(this.rdao.search(category, data));
     }
     
     public Role getById(String jobId){

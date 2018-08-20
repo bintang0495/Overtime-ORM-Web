@@ -53,7 +53,7 @@ public class StatusOvertimeDAO {
      * @param statusId
      * @return 
      */
-    public StatusOvertime getJobById(String statusId){
+    public StatusOvertime getStatusById(String statusId){
         return (StatusOvertime) this.fdao.getById("FROM Status_overtime WHERE id ='" +statusId+ "'");
     }
 }

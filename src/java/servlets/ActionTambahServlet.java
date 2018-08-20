@@ -5,12 +5,20 @@
  */
 package servlets;
 
+import controllers.KaryawanController;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.mindrot.jbcrypt.BCrypt;
+import tools.OTHibernateUtil;
 
 /**
  *
@@ -30,17 +38,44 @@ public class ActionTambahServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
+        KaryawanController kc = new KaryawanController(OTHibernateUtil.getSessionFactory());
+        String id = kc.getAutoId();
+        String nama = request.getParameter("txtNamaPegawai");
+        String role = request.getParameter("cmbRole");
+        
+        String tglLahir = request.getParameter("txtTglLahir");
+        String tglMasuk = request.getParameter("txtTglMasuk");
+        String alamat = request.getParameter("txtAlamat");
+        String gaji = request.getParameter("txtGaji");
+        String email = request.getParameter("txtEmail");
+        String jk = request.getParameter("jenisKelamin");
+        char[] i = tglLahir.toCharArray();
+        String temp="";
+        for (int j = 0; j < i.length; j++) {
+            if (j < 4) {
+                temp = temp+""+i[j];
+            }
+            if(j>4 && j<7){
+                temp = temp+""+i[j];
+            }
+            if(j>7){
+                temp = temp+""+i[j];
+            }   
+        }
+        String salt = BCrypt.gensalt(12);
+        String password = BCrypt.hashpw(temp, salt);
         try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet ActionTambahServlet</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet ActionTambahServlet at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
+            
+            DateFormat formatTanggal = new SimpleDateFormat("yyyy-MM-dd");
+            Date tanggalLahir = formatTanggal.parse(tglLahir);
+            Date tanggalMasuk = formatTanggal.parse(tglMasuk);
+            if (kc.saveOrEdit(id, nama, tanggalLahir, tanggalMasuk, alamat, gaji, email, jk, password, role)) {
+                response.sendRedirect("views/dataKaryawan.jsp");
+            } else {
+                out.println("Gagal, kasian deh~");
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(ActionEditKaryawan.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

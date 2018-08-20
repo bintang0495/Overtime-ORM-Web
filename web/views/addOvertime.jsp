@@ -10,9 +10,10 @@
 <%@page import="controllers.JenisLemburController"%>
 <%@page import="tools.OTHibernateUtil"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<% if (session.getAttribute("id_karyawan") == null) {
+<% if (session.getAttribute("id") == null) {
         response.sendRedirect("login.jsp");
-    } else { %>
+    } else {
+%>
 
 <!DOCTYPE html>
 <html>
@@ -36,71 +37,40 @@
     <body>
         <%@include file="navbar.jsp" %>
         <div id="page-wrapper">
-            <h1>TAMBAH DATA OVERTIME</h1>
-            <table border="0">
-                <tbody>
-                    <tr>
-                        <td>ID</td>
-                        <td>: </td>
-                        <td><input type="text" name="txtDetailId" /></td>
-                    </tr>
-                    <tr>
-                        <td>Nama Karyawan</td>
-                        <td>: </td>
-                        <td><input type="text" name="txtNamaKaryawan" /></td>
-                    </tr>
-                    <tr>
-                        <td>Jenis Lembur</td>
-                        <td>: </td>
-                        <td><select name="cmbJenisLembur">
-                                <%                                JenisLemburController jlc = new JenisLemburController(OTHibernateUtil.getSessionFactory());
+            <div class="col-lg-12">
+                <h1 class="page-header"><label>SUBMIT OVERTIME</label></h1>
+            </div>
+
+
+            <div class="col-lg-12">
+
+                <form action="../actionEditOvertime" method="GET">
+                    <input type="hidden" name="id" value="<%=session.getAttribute("id") %>">
+                    <div class="form-group row">
+                        <label for="jenislembur" class="col-sm-2 col-form-label">Jenis Lembur</label>
+                        <div class="col-sm-4">
+                            <select name="cmbJenisLembur" class="form-control" id="jenislembur">
+                                <%  JenisLemburController jlc = new JenisLemburController(OTHibernateUtil.getSessionFactory());
 
                                     for (JenisLembur jl : jlc.getAll()) {
                                 %><option value="<%= jl.getIdJenisLembur()%>"><%= jl.getJenisLembur()%></option>           
                                 <%    }
                                 %>
-                            </select></td>
-                    </tr>
-                    <tr>
-                        <td>Tanggal</td>
-                        <td>: </td>
-                        <td><input type="text" name="txtTanggal" /></td>
-                    </tr>
-                    <tr>
-                        <td>Jam Masuk</td>
-                        <td>: </td>
-                        <td><input type="text" name="txtJamMasuk" /></td>
-                    </tr>
-                    <tr>
-                        <td>Jam Keluar</td>
-                        <td>: </td>
-                        <td><input type="text" name="txtJamKeluar"/></td>
-                    </tr>
-                    <tr>
-                        <td>Status</td>
-                        <td>: </td>
-                        <td><select name="cmbStatus">
-                                <%
-                                    StatusOvertimeController soc = new StatusOvertimeController(OTHibernateUtil.getSessionFactory());
-
-                                    for (StatusOvertime so : soc.getAll()) {
-                                %><option value="<%= so.getId()%>"><%= so.getStatus()%></option>           
-                                <%    }
-                                %>
-                            </select></td>
-                    </tr>
-                    <tr>
-                        <td>Upah Lembur</td>
-                        <td>: </td>
-                        <td><input type="text" name="txtUpah" /></td>
-                    </tr>
-                    <tr>
-                        <td>Keterangan</td>
-                        <td>: </td>
-                        <td><input type="text" name="txtKeterangan" /></td>
-                    </tr>
-                </tbody>
-            </table>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="ket" class="col-sm-2 col-form-label">Keterangan</label>
+                        <div class="col-sm-4">
+                            <textarea name="txtKeterangan" class="form-control" id="ket"></textarea>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 text-center">
+                        <input type="submit" value="Save" class="btn btn-outline btn-primary" />
+                    </div>
+                </form>
+                <br>
+            </div>
         </div>
         <!-- jQuery -->
         <script src="../lib/vendor/jquery/jquery.min.js"></script>
@@ -116,4 +86,4 @@
     </body>
 </html>
 
-<% } %>
+<% }%>

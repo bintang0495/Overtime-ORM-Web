@@ -4,14 +4,15 @@
     Author     : BINTANG
 --%>
 
+<%@page import="java.text.SimpleDateFormat"%>
 <%@page import="tools.OTHibernateUtil"%>
 <%@page import="controllers.KaryawanController"%>
 <%@page import="entities.Karyawan"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<% if (session.getAttribute("id_karyawan") == null) {
+<% if (session.getAttribute("id") == null) {
         response.sendRedirect("login.jsp");
     } else {
-       %>
+%>
 <!DOCTYPE html>
 <html>
     <head>
@@ -38,28 +39,34 @@
         <div id="page-wrapper">
             <div class="row">
                 <div class="col-lg-12">
-                    <h1 class="page-header">Data Karyawan</h1>
+                    <h1 class="page-header"><label>Data Karyawan</label></h1>
                 </div>
                 <div class="container">
                     <div class="row">
-                        <main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
-                            <%                        KaryawanController kc = new KaryawanController(OTHibernateUtil.getSessionFactory());
-                            %>
+                        <main role="main" class="col-lg-12">
 
-                            <div class="col-3 col-sm-2">
-                                <select class="form-control">
-                                    <option>1</option>
-                                    <option>2</option>
-                                    <option>3</option>
-                                    <option>4</option>
-                                    <option>5</option>
-                                </select></div>
-                            <div >
-                                <span class="col-6 col-sm-6"><input type="text" class="form-control" name="txtFind" value="" /></span>
-                                <span class="col-3 col-sm-2"> <input type="submit" value="Search" class="form-control" name="btnFind" /></span>
-                                <span class="col-3 col-sm-2"><a href="#" class="btn btn-outline btn-success"/>Tambah Data</a></span>
-
-                            </div>                
+                            <form action="../">
+                                <div class="col-3 col-sm-2">
+                                    <select class="form-control">
+                                        <option value="id">ID Karyawan</option>
+                                        <option value="nama">Nama Karyawan</option>
+                                        <option value="tglLahir">Tanggal Lahir</option>
+                                        <option value="tglMasuk">Tanggal Bergabung</option>
+                                        <option value="alamat">Alamat</option>
+                                        <option value="email">Email</option>
+                                        <option value="jenisKelamin">Jenis Kelamin</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <span class="col-6 col-sm-6"><input type="text" class="form-control" name="txtFind" value="" /></span>
+                                    <span class="col-3 col-sm-2"> <input type="submit" value="Search" class="form-control" name="btnFind" /></span>
+                                        <%  if (dataUser.getIdRole().getId().equalsIgnoreCase("ADM")) { %>
+                                    <span class="col-3 col-sm-2"><a href="addKaryawan.jsp" class="btn btn-outline btn-success"/>Tambah Data</a></span>
+                                    <%
+                                        }
+                                    %>
+                                </div>
+                            </form>
                             <br>
 
                             <br>
@@ -69,10 +76,15 @@
                                         <th>ID</th>
                                         <th>Nama Karyawan</th>
                                         <th>Alamat</th>
+                                        <th>Tanggal Lahir</th>
+                                        <th>Tanggal Bergabung</th>
+                                        <th>Alamat</th>
                                         <th>Email</th>
                                         <th>Jenis Kelamin</th>
-                                        <th>Role </th>
-                                            <% if (kc.RoleById("id", session.getAttribute("id_karyawan").toString()) == "ADM") { %>
+                                        <th>Role</th>
+
+
+                                        <% if (dataUser.getIdRole().getId().equalsIgnoreCase("ADM")) { %>
                                         <th>Aksi</th>
                                             <%
                                                 }
@@ -81,17 +93,20 @@
                                 </thead>
                                 <tbody>
                                     <%
-                                        for (Karyawan kar : kc.getAllSort("id", "asc")) {
+                                        for (Karyawan kar : controller.getAllSort("id", "asc")) {
                                     %>
                                     <tr>
 
                                         <td><%= kar.getId()%></td>
                                         <td><%= kar.getNama()%></td>
                                         <td><%=kar.getAlamat()%></td>
+                                        <td><%= new SimpleDateFormat("dd-MM-yyyy").format(kar.getTglLahir())%></td>
+                                        <td><%= new SimpleDateFormat("dd-MM-yyyy").format(kar.getTglMasuk())%></td>
+                                        <td><%=kar.getAlamat()%></td>
                                         <td><%=kar.getEmail()%></td>
                                         <td><%=kar.getJenisKelamin()%></td>
                                         <td><%= kar.getIdRole().getNama()%></td>
-                                        <% if (kc.RoleById("id", session.getAttribute("id_karyawan").toString()) == "ADM") {%>
+                                        <% if (dataUser.getIdRole().getId().equalsIgnoreCase("ADM")) {%>
                                         <td>
                                             <span><a class="btn btn-outline btn-success" href="../editKaryawanView?id=<%= kar.getId()%>">Edit</a></span>
                                             <span><a class="btn btn-outline btn-info" href="../detailKaryawanView?id=<%= kar.getId()%>">Detail</a></span>
