@@ -5,12 +5,16 @@
  */
 package servlets;
 
+import controllers.DataOvertimeController;
+import entities.DataOvertime;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import tools.OTHibernateUtil;
 
 /**
  *
@@ -30,17 +34,18 @@ public class TolakOvertime extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
+        DataOvertimeController overtimeController = new DataOvertimeController(OTHibernateUtil.getSessionFactory());
+        String id = request.getParameter("id");
+        HttpSession session = request.getSession();
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet TolakOvertime</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet TolakOvertime at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
+            DataOvertime dataOvertime = overtimeController.search("id", id).get(0);
+
+            if (overtimeController.saveOrEdit(id, dataOvertime.getTgl(), dataOvertime.getJamMasuk(), dataOvertime.getJamPulang(), dataOvertime.getKeterangan(), "0", dataOvertime.getIdJenisLembur().getIdJenisLembur().toString(), dataOvertime.getIdKaryawan().getId().toString(), "3")) {
+                
+                response.sendRedirect("views/home.jsp");
+            }
+
         }
     }
 

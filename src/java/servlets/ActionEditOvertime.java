@@ -7,6 +7,7 @@ package servlets;
 
 import controllers.DataOvertimeController;
 import controllers.KaryawanController;
+import entities.DataOvertime;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.text.DateFormat;
@@ -44,19 +45,16 @@ public class ActionEditOvertime extends HttpServlet {
         String jenisLembur = request.getParameter("cmbJenisLembur");
         String ket = request.getParameter("txtKeterangan");
         Date date = new Date();
-        String id = controller.getMaxId();
-        
+
         try (PrintWriter out = response.getWriter()) {
-            if(id.isEmpty()){
-                out.println("Kosong");
-            }else{
-                out.println("Isi");
+            DataOvertime dataOvertime = controller.searchSortingId("idKaryawan", idKaryawan, "desc").get(0);
+            if (new SimpleDateFormat("dd-MM-yyyy").format(dataOvertime.getTgl()).equals(new SimpleDateFormat("dd-MM-yyyy").format(date))) {
+                String id = dataOvertime.getId().toString();
+                if (controller.saveOrEdit(id, dataOvertime.getTgl(), dataOvertime.getJamMasuk(), dataOvertime.getJamPulang(), ket, dataOvertime.getUpahLembur().toString(), jenisLembur, dataOvertime.getIdKaryawan().getId().toString(), dataOvertime.getIdStatus().getId().toString())) {
+                    response.sendRedirect("views/dataKaryawan.jsp");
+                }
             }
-//            if (controller.saveOrEdit(id, date, date, date, ket, 0, email, jk, BCrypt.hashpw(password, salt), role)) {
-//                response.sendRedirect("views/dataKaryawan.jsp");
-//            } else {
-//            
-//            }
+
         } catch (Exception ex) {
             Logger.getLogger(ActionEditKaryawan.class.getName()).log(Level.SEVERE, null, ex);
         }

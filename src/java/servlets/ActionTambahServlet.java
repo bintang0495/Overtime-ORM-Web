@@ -58,7 +58,7 @@ public class ActionTambahServlet extends HttpServlet {
             if(j>4 && j<7){
                 temp = temp+""+i[j];
             }
-            if(j>7){
+            if(j>7 && j<12){
                 temp = temp+""+i[j];
             }   
         }
@@ -70,7 +70,7 @@ public class ActionTambahServlet extends HttpServlet {
             Date tanggalLahir = formatTanggal.parse(tglLahir);
             Date tanggalMasuk = formatTanggal.parse(tglMasuk);
             if (kc.saveOrEdit(id, nama, tanggalLahir, tanggalMasuk, alamat, gaji, email, jk, password, role)) {
-                response.sendRedirect("views/dataKaryawan.jsp");
+                response.sendRedirect("views/home.jsp");
             } else {
                 out.println("Gagal, kasian deh~");
             }

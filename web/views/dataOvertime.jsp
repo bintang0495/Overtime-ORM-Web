@@ -10,10 +10,7 @@
 <%@page import="tools.OTHibernateUtil"%>
 <%@page import="controllers.DataOvertimeController"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<% if (session.getAttribute("id") == null) {
-        response.sendRedirect("login.jsp");
-    } else {
-       %>
+
 <!DOCTYPE html>
 <html>
     <head>
@@ -35,7 +32,14 @@
     </head>   
     <body>
         <%@include file="navbar.jsp" %>
-
+        <% if (session.getAttribute("id") == null) {
+                response.sendRedirect("login.jsp");
+            } 
+        else {
+                if(dataUser.getIdRole().getId().equals("USR")){
+                    response.sendRedirect("home.jsp");
+                }else{
+        %>
         <div id="page-wrapper">
             <div class="row">
                 <div class="col-lg-12">
@@ -66,7 +70,7 @@
                             <table border="1" class="table table-striped table-bordered table-hover">
                                 <thead>
                                     <tr>
-                                        <th>ID</th>
+                                        <th>No</th>
                                         <th>Nama Karyawan</th>
                                         <th>Tanggal Lembur</th>
                                         <th>Jam Berangkat</th>
@@ -74,50 +78,48 @@
                                         <th>Keterangan</th>
                                         <th>Status</th>
                                         <th>Jenis Lembur</th>
-                                            <% KaryawanController karyawan = new KaryawanController(OTHibernateUtil.getSessionFactory());
-                                            if (karyawan.getById(session.getAttribute("id").toString()).getIdRole().getId() == "ADM") {%>
-                                        <th>Aksi</th>
-                                            <% } %>
                                     </tr>
                                 </thead>
                                 <tbody>
+                                    <%                                        
+                                        int i = 1;
+                                        for (DataOvertime dataOvertime : overtimeController.getAll()) {
+                                    %>
                                     <tr>
-                                        <%
-                                            for (DataOvertime dataOvertime : overtimeController.getAll()) {
-                                        %>
 
-                                        <td><%= dataOvertime.getId()%></td>
+
+                                        <td><%= i %></td>
                                         <td><%= dataOvertime.getIdKaryawan().getNama()%></td>
-                                        <td><%= new SimpleDateFormat("HH:mm").format(dataOvertime.getJamMasuk())%></td>
-                                        <td><%= new SimpleDateFormat("HH:mm").format(dataOvertime.getJamPulang())%></td>
+                                        <td><%= new SimpleDateFormat("dd-MM-yyyy").format(dataOvertime.getTgl())%></td>
+                                        <td><%= new SimpleDateFormat("HH.mm").format(dataOvertime.getJamMasuk())%></td>
+                                        <td><%= new SimpleDateFormat("HH.mm").format(dataOvertime.getJamPulang())%></td>
                                         <td><%=dataOvertime.getKeterangan()%></td>
                                         <td><%=dataOvertime.getIdStatus().getStatus()%></td>
                                         <td><%=dataOvertime.getIdJenisLembur().getJenisLembur()%></td>
-                                       <% if(karyawan.getById(session.getAttribute("id").toString()).getIdRole().getId() == "ADM"){%>
-                                        <td> <span><a class="btn btn-outline btn-success" href="../accOvertime?id=<%= dataOvertime.getId()%>">Terima</a></span>
-                                            <span><a class="btn btn-outline btn-info" href="../tolakOvertime?id=<%= dataOvertime.getId()%>">Tolak</a></span>
-                                        </td><%  } %>
-                                        <% } %>
-                                          
                                     </tr>
+                                    <% 
+                                        i++;
+                                    }
+                                    %>
                                 </tbody>
                             </table>
                         </main>
                     </div>
                 </div>
             </div>
-            </div>
-                <!-- jQuery -->
-                <script src="../lib/vendor/jquery/jquery.min.js"></script>
+        </div>
+        <!-- jQuery -->
+        <script src="../lib/vendor/jquery/jquery.min.js"></script>
 
-                <!-- Bootstrap Core JavaScript -->
-                <script src="../lib/vendor/bootstrap/js/bootstrap.min.js"></script>
+        <!-- Bootstrap Core JavaScript -->
+        <script src="../lib/vendor/bootstrap/js/bootstrap.min.js"></script>
 
-                <!-- Metis Menu Plugin JavaScript -->
-                <script src="../lib/vendor/metisMenu/metisMenu.min.js"></script>
+        <!-- Metis Menu Plugin JavaScript -->
+        <script src="../lib/vendor/metisMenu/metisMenu.min.js"></script>
 
-                <!-- Custom Theme JavaScript -->
-                <script src="../lib/dist/js/sb-admin-2.js"></script>
-                </body>
-                </html>
-                <% }%>
+        <!-- Custom Theme JavaScript -->
+        <script src="../lib/dist/js/sb-admin-2.js"></script>
+    </body>
+</html>
+<% }
+}%>

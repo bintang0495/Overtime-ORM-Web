@@ -4,13 +4,11 @@
     Author     : BINTANG
 --%>
 
+<%@page import="java.text.SimpleDateFormat"%>
 <%@page import="entities.DataOvertime"%>
 <%@page import="controllers.DataOvertimeController"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<% if (session.getAttribute("id") == null) {
-        response.sendRedirect("login.jsp");
-    } else {
-%>
+
 <!DOCTYPE html>
 <html>
     <head>
@@ -32,6 +30,14 @@
     </head>
     <body>
         <%@include file="navbar.jsp" %>
+        <% if (session.getAttribute("id") == null) {
+                response.sendRedirect("login.jsp");
+            } 
+        else {
+                if(!dataUser.getIdRole().getId().equals("USR")){
+                    response.sendRedirect("home.jsp");
+                }else{
+        %>
         <div id="page-wrapper">
             <div class="row">
                 <div class="col-lg-12">
@@ -64,7 +70,7 @@
 
                     </div>                
                 </div>
-                    <br>
+                <br>
                 <div class="col-lg-12">
                     <table class="table table-striped table-bordered table-hover">
                         <thead>
@@ -82,17 +88,17 @@
                         </thead>
                         <tbody>
                             <%
-                                for (DataOvertime dataOvertime : overtimeController.search("idKaryawan", session.getAttribute("id").toString())) {
+                                for (DataOvertime dataOvertime : overtimeController.getAllByCategoryNotNull("idKaryawan", "asc")) {
                             %>
                             <tr>
                                 <td><%= dataOvertime.getId()%></td>
                                 <td><%= dataOvertime.getIdKaryawan().getNama()%></td>
-                                <td><%= dataOvertime.getJamMasuk()%></td>
-                                <td><%=dataOvertime.getJamPulang()%></td>
+                                <td><%= new SimpleDateFormat("dd-MM-yyyy").format(dataOvertime.getTgl())%></td>
+                                <td><%= new SimpleDateFormat("HH:mm").format(dataOvertime.getJamMasuk())%></td>
+                                <td><%= new SimpleDateFormat("HH:mm").format(dataOvertime.getJamPulang())%></td>
                                 <td><%=dataOvertime.getKeterangan()%></td>
                                 <td><%=dataOvertime.getIdStatus().getStatus()%></td>
                                 <td><%=dataOvertime.getIdJenisLembur().getJenisLembur()%></td>
-                                <td><%=dataOvertime.getUpahLembur()%></td>
                             </tr>
                             <% } %>
                         </tbody>
@@ -113,4 +119,5 @@
         <script src="../lib/dist/js/sb-admin-2.js"></script>
     </body>
 </html>
-<% }%>
+<% }
+}%>

@@ -106,7 +106,11 @@
                     <div class="form-group row">
                         <label class="col-sm-2 col-form-label">Jenis Kelamin</label>
                         <div class="col-sm-4">
-                            <p><%= kar.getJenisKelamin()%></p>
+                            <p><% if(kar.getJenisKelamin().equals("P")){
+                                out.println("Perempuan");
+                            }else{
+                                out.println("Laki-laki");
+                            }%></p>
                         </div>
                     </div>
                 </div>

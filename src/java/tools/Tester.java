@@ -40,14 +40,56 @@ public class Tester {
     public static void main(String[] args) {
 //        System.out.println(OTHibernateUtil.getSessionFactory());
         DataOvertimeController controller = new DataOvertimeController(OTHibernateUtil.getSessionFactory());
-        String id = controller.getById("1").getId().toString();
-        if(id.isEmpty()){
-            System.out.println("Kamu kurang berdoa");
+        Date date = new Date();
+        
+        DataOvertime dataOvertime = controller.search("id", "2").get(0);
+            int gaji,upah;
+            upah = 0;
+            gaji = Integer.parseInt(dataOvertime.getIdKaryawan().getGaji().toString());
+            upah =(int) (gaji * (0.01));
+            String id = dataOvertime.getId().toString();
+            Date tglMasuk = dataOvertime.getTgl(); 
+            Date jamMasuk = dataOvertime.getJamMasuk();
+            Date jamPulang = dataOvertime.getJamPulang();
+            String ket = dataOvertime.getKeterangan();
+            String upahh = upah+""; 
+            String jenisLembur = dataOvertime.getIdJenisLembur().getIdJenisLembur().toString(); 
+            String karyawanId = dataOvertime.getIdKaryawan().getId().toString();
+            String status = "2";
+        System.out.println(id);
+        System.out.println(tglMasuk);
+        System.out.println(jamMasuk);
+        System.out.println(jamPulang);
+        System.out.println(ket);
+        System.out.println(upahh);
+        System.out.println(jenisLembur);
+        System.out.println(karyawanId);
+        System.out.println(status);
+        if(controller.saveOrEdit(id, tglMasuk, jamMasuk, jamPulang, ket, jenisLembur, jenisLembur, karyawanId, status)){
+            System.out.println("Berhaasil");
         }else{
-            System.out.println("Kamu harus berdoa");
+            System.out.println("Gagal");
         }
+        Date d = null;
+//        if(new SimpleDateFormat("dd-MM-yyyy").format(controller.getById("2").getJamMasuk()) == null){
+//            System.out.println("Tidak bisa bod");
+//        }
+
+        
+        if(new SimpleDateFormat("dd-MM-yyyy").format(controller.getById("1").getJamMasuk()).equals(new SimpleDateFormat("dd-MM-yyyy").format(date))){
+            System.out.println(new SimpleDateFormat("dd-MM-yyyy").format(controller.getById("1").getJamMasuk()));
+            System.out.println(new SimpleDateFormat("dd-MM-yyyy").format(date));
+        }else{
+            System.out.println(new SimpleDateFormat("dd-MM-yyyy").format(controller.getById("1").getJamMasuk()));
+            System.out.println(new SimpleDateFormat("dd-MM-yyyy").format(date));
+        }
+
 //        controller.saveOrEdit("1", date, date, date, "Mengerjakan fungsi add dan edit karyawan", "1000", "1", "3", "1");
-//        System.out.println("1+1 = "+2);
+//        for (DataOvertime dataOvertime : controller.getAll()) {
+//            System.out.println(dataOvertime.getId()+" - "+dataOvertime.getIdKaryawan().getNama()+" melakukan "+dataOvertime.getKeterangan());
+//        }
+//        DataOvertime dataOvertime = controller.search2("idKaryawan", controller.getById("1").getIdKaryawan().getId().toString(), "tgl", new SimpleDateFormat("yyyy-mm-dd").format(controller.getById("1").getTgl())).get(0);
+//        System.out.println(new SimpleDateFormat("yyyy-MM-dd").format(controller.getById("1").getTgl()));
         
 //        String password1 = "dayinta";
 //        String password2 = "admin";

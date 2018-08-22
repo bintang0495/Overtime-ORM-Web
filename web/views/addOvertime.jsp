@@ -4,16 +4,16 @@
     Author     : AINAN
 --%>
 
+<%@page import="entities.DataOvertime"%>
+<%@page import="controllers.DataOvertimeController"%>
+<%@page import="java.util.Date"%>
+<%@page import="java.text.SimpleDateFormat"%>
 <%@page import="entities.StatusOvertime"%>
 <%@page import="controllers.StatusOvertimeController"%>
 <%@page import="entities.JenisLembur"%>
 <%@page import="controllers.JenisLemburController"%>
 <%@page import="tools.OTHibernateUtil"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<% if (session.getAttribute("id") == null) {
-        response.sendRedirect("login.jsp");
-    } else {
-%>
 
 <!DOCTYPE html>
 <html>
@@ -36,16 +36,58 @@
     </head>
     <body>
         <%@include file="navbar.jsp" %>
+        <% if (session.getAttribute("id") == null) {
+                response.sendRedirect("login.jsp");
+            } else {
+                if (!dataUser.getIdRole().getId().equals("USR")) {
+                    response.sendRedirect("home.jsp");
+                } else {
+        %>
         <div id="page-wrapper">
             <div class="col-lg-12">
                 <h1 class="page-header"><label>SUBMIT OVERTIME</label></h1>
             </div>
+                <%
+                    DataOvertimeController doc = new DataOvertimeController(OTHibernateUtil.getSessionFactory());
+                    Date date = new Date();
+                    String tgl = new SimpleDateFormat("dd").format(date);
+                    String bulan = new SimpleDateFormat("MM").format(date);
+                    int jam = Integer.parseInt(new SimpleDateFormat("HH").format(date));
 
+                    int paramJatah=20;
+                    int paramJamPulang = 17;
+                    int temp;
 
+                    if (tgl.equals("01")) {
+                        paramJatah = 20;
+                    }else {
+                        for (DataOvertime elem : doc.search("idKaryawan", dataUser.getId().toString())) {
+                            if ((elem.getKeterangan() != null) && (new SimpleDateFormat("MM").format(elem.getTgl()).equals(bulan))) {
+                                temp = Integer.parseInt(new SimpleDateFormat("HH").format(elem.getJamPulang()));
+                                if(temp > 21){
+                                    temp = 21;
+                                }
+                                paramJatah = paramJatah - (temp - paramJamPulang);
+                            }
+                        } 
+                    }
+                    if (paramJatah <= 0) {
+                        paramJatah = 0;
+                    }
+            %>
+            <div class="col-lg-4">
+                Jatah overtime : <%=paramJatah %>
+            </div>
             <div class="col-lg-12">
 
+                <%
+                    if (jam <= 17) {
+                %>
+                <h2><label>Submit overtime belum dapat dilakukan</label></h2>
+                <%
+                } else {
+                %>
                 <form action="../actionEditOvertime" method="GET">
-                    <input type="hidden" name="id" value="<%=session.getAttribute("id") %>">
                     <div class="form-group row">
                         <label for="jenislembur" class="col-sm-2 col-form-label">Jenis Lembur</label>
                         <div class="col-sm-4">
@@ -65,10 +107,14 @@
                             <textarea name="txtKeterangan" class="form-control" id="ket"></textarea>
                         </div>
                     </div>
+                    <input type="hidden" name="id" value="<%=session.getAttribute("id")%>">
                     <div class="col-sm-6 text-center">
                         <input type="submit" value="Save" class="btn btn-outline btn-primary" />
                     </div>
                 </form>
+                <%
+                    }
+                %>
                 <br>
             </div>
         </div>
@@ -85,5 +131,5 @@
         <script src="../lib/dist/js/sb-admin-2.js"></script>
     </body>
 </html>
-
-<% }%>
+<% }
+    }%>

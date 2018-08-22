@@ -9,10 +9,7 @@
 <%@page import="controllers.KaryawanController"%>
 <%@page import="entities.Karyawan"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<% if (session.getAttribute("id") == null) {
-        response.sendRedirect("login.jsp");
-    } else {
-%>
+
 <!DOCTYPE html>
 <html>
     <head>
@@ -35,7 +32,14 @@
     <body>
 
         <%@include file="navbar.jsp" %>
-
+        <% if (session.getAttribute("id") == null) {
+                response.sendRedirect("login.jsp");
+            } 
+        else {
+                if(dataUser.getIdRole().getId().equals("USR")){
+                    response.sendRedirect("home.jsp");
+                }else{
+        %>
         <div id="page-wrapper">
             <div class="row">
                 <div class="col-lg-12">
@@ -110,7 +114,6 @@
                                         <td>
                                             <span><a class="btn btn-outline btn-success" href="../editKaryawanView?id=<%= kar.getId()%>">Edit</a></span>
                                             <span><a class="btn btn-outline btn-info" href="../detailKaryawanView?id=<%= kar.getId()%>">Detail</a></span>
-                                            <span><a class="btn btn-outline btn-danger" href="#">Delete</a></span>
                                         </td>
                                         <%
                                             }
@@ -144,4 +147,5 @@
 </html>
 <%
     }
+}
 %>

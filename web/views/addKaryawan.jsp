@@ -8,10 +8,7 @@
 <%@page import="entities.Role"%>
 <%@page import="controllers.RoleController"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<% if (session.getAttribute("id") == null) {
-        response.sendRedirect("login.jsp");
-    } else {
-%>
+
 <!DOCTYPE html>
 <html>
     <head>
@@ -33,6 +30,13 @@
     </head>
     <body>
         <%@include file="navbar.jsp" %>
+        <% if (session.getAttribute("id") == null) {
+                response.sendRedirect("login.jsp");
+            } else {
+                if(!dataUser.getIdRole().getId().equals("ADM")){
+                    response.sendRedirect("home.jsp");
+                }else{
+        %>
         <div id="page-wrapper">
             <div class="col-lg-12">
                 <h1 class="page-header"><label>TAMBAH DATA KARYAWAN</label></h1>
@@ -82,7 +86,7 @@
                             <label class="col-sm-2 col-form-label">Jenis Kelamin</label>
                             <div class="col-sm-4">
                                 <label class="radio-inline">
-                                    <input type="radio" name="jenisKelamin" value="L">Laki-laki
+                                    <input type="radio" name="jenisKelamin" value="L" checked>Laki-laki
                                 </label>
                                 <label class="radio-inline">
                                     <input type="radio" name="jenisKelamin" value="P">Perempuan
@@ -109,7 +113,6 @@
                 </form>
                 <br>
             </div>
-
         </div>
         <!-- jQuery -->
         <script src="../lib/vendor/jquery/jquery.min.js"></script>
@@ -124,4 +127,5 @@
         <script src="../lib/dist/js/sb-admin-2.js"></script>
     </body>
 </html>
-<% }%>
+<% }
+}%>

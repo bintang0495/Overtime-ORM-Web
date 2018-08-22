@@ -8,9 +8,7 @@
 <%@page import="java.text.SimpleDateFormat"%>
 <%@page import="entities.DataOvertime"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<% if (session.getAttribute("id") == null) {
-        response.sendRedirect("login.jsp");
-    } else { %>
+
 <!DOCTYPE html>
 <html>
     <head>
@@ -32,14 +30,22 @@
     </head>
     <body>
         <%@include file="navbar.jsp" %>
+        <% if (session.getAttribute("id") == null) {
+                response.sendRedirect("login.jsp");
+            } 
+        else {
+                if(!dataUser.getIdRole().getId().equals("MAN")){
+                    response.sendRedirect("home.jsp");
+                }else{
+        %>
         <div id="page-wrapper">
             <div class="row">
                 <div class="col-lg-12">
-                    <h1 class="page-header"><label>Data Overtime</label></h1>
+                    <h1 class="page-header"><label>Waiting Approval</label></h1>
                 </div>
                 <div class="col-lg-12">
                     <div class="row">
-                        <main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
+                        <main role="main">
 
                             <%
                                 DataOvertimeController overtimeController = new DataOvertimeController(OTHibernateUtil.getSessionFactory());
@@ -62,7 +68,7 @@
                             <table border="1" class="table table-striped table-bordered table-hover">
                                 <thead>
                                     <tr>
-                                        <th>ID</th>
+                                        <th>No</th>
                                         <th>Nama Karyawan</th>
                                         <th>Tanggal Lembur</th>
                                         <th>Jam Berangkat</th>
@@ -70,36 +76,50 @@
                                         <th>Keterangan</th>
                                         <th>Status</th>
                                         <th>Jenis Lembur</th>
-                                            
+                                        <%
+                                            if(dataUser.getIdRole().getId().equals("MAN")){
+                                        %>
+                                        <th>Aksi</th>
+                                        <% } %>
                                     </tr>
                                 </thead>
                                 <tbody>
+                                    <%   
+                                        int i=1;
+                                        for (DataOvertime dataOvertime : overtimeController.search("idStatus", "1")) {
+                                    %>
                                     <tr>
-                                        <%
-                                            for (DataOvertime dataOvertime : overtimeController.search("idStatus", "1")) {
-                                        %>
-
-                                        <td><%= dataOvertime.getId()%></td>
+                                        <td><%= i %></td>
                                         <td><%= dataOvertime.getIdKaryawan().getNama()%></td>
-                                        <td><%= new SimpleDateFormat("HH:mm").format(dataOvertime.getJamMasuk())%></td>
-                                        <td><%= new SimpleDateFormat("HH:mm").format(dataOvertime.getJamPulang())%></td>
+                                        <td><%= new SimpleDateFormat("dd-MM-yyyy").format(dataOvertime.getTgl())%></td>
+                                        <td><%= new SimpleDateFormat("HH.mm").format(dataOvertime.getJamMasuk())%></td>
+                                        <td><%= new SimpleDateFormat("HH.mm").format(dataOvertime.getJamPulang())%></td>
                                         <td><%=dataOvertime.getKeterangan()%></td>
                                         <td><%=dataOvertime.getIdStatus().getStatus()%></td>
                                         <td><%=dataOvertime.getIdJenisLembur().getJenisLembur()%></td>
-                                       
+                                        <%
+                                            if(dataUser.getIdRole().getId().equals("MAN")){
+                                        %>
+                                        <td>
+                                            <span><a class="btn btn-outline btn-success" href="../accOvertime?id=<%= dataOvertime.getId() %>">Terima</a></span>
+                                            <span><a class="btn btn-outline btn-danger" href="../tolakOvertime?id=<%= dataOvertime.getId() %>">Tolak</a></span>
+                                        </td>
                                         <% } %>
-                                          
                                     </tr>
+                                    <% 
+                                        i++; 
+                                    }
+                                    %>
                                 </tbody>
                             </table>
                         </main>
                     </div>
                 </div>
             </div>
-            
-            
+
+
         </div>
-        
+
         <!-- jQuery -->
         <script src="../lib/vendor/jquery/jquery.min.js"></script>
 
@@ -113,4 +133,5 @@
         <script src="../lib/dist/js/sb-admin-2.js"></script>
     </body>
 </html>
-<% } %>
+<% }
+} %>

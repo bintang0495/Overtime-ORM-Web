@@ -5,13 +5,20 @@
  */
 package servlets;
 
+import controllers.DataOvertimeController;
+import controllers.KaryawanController;
+import entities.DataOvertime;
+import entities.Karyawan;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import tools.OTHibernateUtil;
 
 /**
  *
@@ -32,10 +39,31 @@ public class ActionLogout extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         HttpSession session = request.getSession();
+        DataOvertimeController overtimeController = new DataOvertimeController(OTHibernateUtil.getSessionFactory());
+        KaryawanController karyawanController = new KaryawanController(OTHibernateUtil.getSessionFactory());
+        String idKaryawan = session.getAttribute("id").toString();
+
+        Date date = new Date();
+
+        Karyawan kar = karyawanController.getById(idKaryawan);
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
-            session.invalidate();
-            response.sendRedirect("views/home.jsp");
+
+            if (kar.getIdRole().getId().equals("USR")) {
+                DataOvertime dataOvertime = overtimeController.searchSortingId("idKaryawan", idKaryawan, "desc").get(0);
+                if (new SimpleDateFormat("dd-MM").format(dataOvertime.getTgl()).equals(new SimpleDateFormat("dd-MM").format(date))) {
+                    String id = dataOvertime.getId().toString();
+                    if (overtimeController.saveOrEdit(id, dataOvertime.getTgl(), dataOvertime.getJamMasuk(), date, dataOvertime.getKeterangan(), dataOvertime.getUpahLembur().toString(), dataOvertime.getIdJenisLembur().getIdJenisLembur().toString(), dataOvertime.getIdKaryawan().getId().toString(), dataOvertime.getIdStatus().getId().toString())) {
+                        session.invalidate();
+                        response.sendRedirect("views/home.jsp");
+                    }
+                }
+
+            } else {
+                session.invalidate();
+                response.sendRedirect("views/home.jsp");
+            }
+
         }
     }
 

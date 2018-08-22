@@ -8,10 +8,7 @@
 <%@page import="java.text.DateFormat"%>
 <%@page import="entities.Karyawan"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<% if (session.getAttribute("id") == null) {
-        response.sendRedirect("login.jsp");
-    } else {
-%>
+
 <!DOCTYPE html>
 <html>
     <head>
@@ -33,6 +30,14 @@
     </head>
     <body>
         <%@include file="navbar.jsp" %>
+        <% if (session.getAttribute("id") == null) {
+                response.sendRedirect("login.jsp");
+            } 
+        else {
+                if(!dataUser.getIdRole().getId().equals("ADM")){
+                    response.sendRedirect("home.jsp");
+                }else{
+        %>
         <div id="page-wrapper">
             <div class="container">
                 <div class="col-lg-12">
@@ -127,4 +132,5 @@
         <script src="../lib/dist/js/sb-admin-2.js"></script>
     </body>
 </html>
-<% }%>
+<% }
+}%>

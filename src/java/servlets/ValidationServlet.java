@@ -41,26 +41,32 @@ public class ValidationServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
+        KaryawanController kc = new KaryawanController(OTHibernateUtil.getSessionFactory());
+        DataOvertimeController overtimeController = new DataOvertimeController(OTHibernateUtil.getSessionFactory());
         String email = request.getParameter("txtEmail");
         String password = request.getParameter("txtPassword");
         String salt = BCrypt.gensalt(12);
         Date date = new Date();
         HttpSession session = request.getSession();
         RequestDispatcher dispatcher = null;
-        KaryawanController kc = new KaryawanController(OTHibernateUtil.getSessionFactory());
+        String id = kc.getByCategory("email", email).getId().toString();
 //        DataOvertimeController doc = new DataOvertimeController(OTHibernateUtil.getSessionFactory());
         try (PrintWriter out = response.getWriter()) {
             if (email == "" || email == null || password == "" || password == null) {
                 out.println("Isikan Email/password");
             } else {
                 if (kc.login("email", email, password)) {
-                    session.setAttribute("id", kc.getByCategory("email", email).getId());
+                    if(kc.getByCategory("email", email).getIdRole().getId().equalsIgnoreCase("USR")){
+                        overtimeController.saveOrEdit(overtimeController.getAutoId(), date, date, null, null, "0", "1", id, "1");
+                    }
+                    session.setAttribute("id", id);
                     response.sendRedirect("views/home.jsp");
                 } else {
                     response.sendRedirect("views/login.jsp");
                 }
 
             }
+            
 //            dispatcher.include(request, response);
         }
     }

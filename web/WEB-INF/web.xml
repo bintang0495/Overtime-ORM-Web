@@ -41,6 +41,10 @@
         <servlet-class>servlets.ActionLogout</servlet-class>
     </servlet>
     <servlet>
+        <servlet-name>AccOvertime</servlet-name>
+        <servlet-class>servlets.AccOvertime</servlet-class>
+    </servlet>
+    <servlet>
         <servlet-name>TolakOvertime</servlet-name>
         <servlet-class>servlets.TolakOvertime</servlet-class>
     </servlet>
@@ -83,6 +87,10 @@
     <servlet-mapping>
         <servlet-name>ActionLogout</servlet-name>
         <url-pattern>/actionLogout</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AccOvertime</servlet-name>
+        <url-pattern>/accOvertime</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>TolakOvertime</servlet-name>
