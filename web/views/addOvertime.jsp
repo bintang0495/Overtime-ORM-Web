@@ -20,115 +20,121 @@
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>Tambah Data Overtime</title>
-        <!-- Bootstrap Core CSS -->
-        <link href="../lib/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta name="description" content="">
+        <meta name="author" content="">
+        <title>Submit Overtime</title>
+        <!-- Bootstrap core CSS-->
+        <link href="../library/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 
-        <!-- MetisMenu CSS -->
-        <link href="../lib/vendor/metisMenu/metisMenu.min.css" rel="stylesheet">
+        <!-- Custom fonts for this template-->
+        <link href="../library/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
 
-        <!-- Custom CSS -->
-        <link href="../lib/dist/css/sb-admin-2.css" rel="stylesheet">
+        <!-- Page level plugin CSS-->
+        <link href="../library/vendor/datatables/dataTables.bootstrap4.css" rel="stylesheet">
 
-        <!-- Custom Fonts -->
-        <link href="../lib/vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+        <!-- Custom styles for this template-->
+        <link href="../library/css/sb-admin.css" rel="stylesheet">
+
+
+        <link rel="stylesheet" type="text/css" href="style.css">
     </head>
-    <body>
+    <body id="page-top">
         <%@include file="navbar.jsp" %>
-        <% if (session.getAttribute("id") == null) {
+        <%            if (session.getAttribute("id") == null) {
                 response.sendRedirect("login.jsp");
             } else {
                 if (!dataUser.getIdRole().getId().equals("USR")) {
                     response.sendRedirect("home.jsp");
                 } else {
         %>
-        <div id="page-wrapper">
-            <div class="col-lg-12">
-                <h1 class="page-header"><label>SUBMIT OVERTIME</label></h1>
-            </div>
-                <%
-                    DataOvertimeController doc = new DataOvertimeController(OTHibernateUtil.getSessionFactory());
-                    Date date = new Date();
-                    String tgl = new SimpleDateFormat("dd").format(date);
-                    String bulan = new SimpleDateFormat("MM").format(date);
-                    int jam = Integer.parseInt(new SimpleDateFormat("HH").format(date));
+        <div id="wrapper">
+            <%@include file="sidebar.jsp" %>
 
-                    int paramJatah=20;
-                    int paramJamPulang = 17;
-                    int temp;
+            <div id="content-wrapper">
+                <div class="container-fluid">
+                    <div class="col-lg-12" id="header-home">
+                        <h1><b>TAMBAH DATA KARYAWAN</b></h1>
+                    </div>
+                    <div class="col-lg-12" id="">
+                        <%                    
+                            int paramJatah = Integer.parseInt(session.getAttribute("paramJatah").toString());
+                        %>
+                        <div class="col-lg-4">
+                            <label>Jatah overtime : <%=paramJatah%> </label>
+                        </div>
+                        <div class="col-lg-12">
 
-                    if (tgl.equals("01")) {
-                        paramJatah = 20;
-                    }else {
-                        for (DataOvertime elem : doc.search("idKaryawan", dataUser.getId().toString())) {
-                            if ((elem.getKeterangan() != null) && (new SimpleDateFormat("MM").format(elem.getTgl()).equals(bulan))) {
-                                temp = Integer.parseInt(new SimpleDateFormat("HH").format(elem.getJamPulang()));
-                                if(temp > 21){
-                                    temp = 21;
+                            <%
+                                if (paramJatah == 0) {
+                            %>
+                            <h2><label>Submit overtime tidak dapat dilakukan</label></h2>
+                            <%
+                            } else {
+                            %>
+                            <form action="../actionEditOvertime" method="GET">
+                                <div class="form-group row">
+                                    <label for="jenislembur" class="col-sm-2 col-form-label">Jenis Lembur</label>
+                                    <div class="col-sm-4">
+                                        <select name="cmbJenisLembur" class="form-control" id="jenislembur">
+                                            <%  JenisLemburController jlc = new JenisLemburController(OTHibernateUtil.getSessionFactory());
+
+                                                for (JenisLembur jl : jlc.getAll()) {
+                                            %><option value="<%= jl.getIdJenisLembur()%>"><%= jl.getJenisLembur()%></option>           
+                                            <%    }
+                                            %>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="ket" class="col-sm-2 col-form-label">Keterangan</label>
+                                    <div class="col-sm-4">
+                                        <textarea name="txtKeterangan" class="form-control" id="ket" ></textarea>
+                                    </div>
+                                </div>
+                                <input type="hidden" name="id" value="<%=session.getAttribute("id")%>">
+                                <div class="col-sm-6 text-center">
+                                    <input type="submit" value="Save" class="btn btn-outline btn-primary" />
+                                </div>
+                                <input type="hidden" name="id" value="<%=session.getAttribute("id")%>">
+                                <div class="col-sm-6 text-center">
+                                    <p>
+                                        <%
+                                            if (session.getAttribute("msg") != null) {
+                                                out.print(session.getAttribute("msg"));
+                                            }
+                                            session.setAttribute("msg", " ");
+                                        %>
+                                    </p>
+                                </div>
+                            </form>
+                            <%
                                 }
-                                paramJatah = paramJatah - (temp - paramJamPulang);
-                            }
-                        } 
-                    }
-                    if (paramJatah <= 0) {
-                        paramJatah = 0;
-                    }
-            %>
-            <div class="col-lg-4">
-                Jatah overtime : <%=paramJatah %>
-            </div>
-            <div class="col-lg-12">
-
-                <%
-                    if (jam <= 17) {
-                %>
-                <h2><label>Submit overtime belum dapat dilakukan</label></h2>
-                <%
-                } else {
-                %>
-                <form action="../actionEditOvertime" method="GET">
-                    <div class="form-group row">
-                        <label for="jenislembur" class="col-sm-2 col-form-label">Jenis Lembur</label>
-                        <div class="col-sm-4">
-                            <select name="cmbJenisLembur" class="form-control" id="jenislembur">
-                                <%  JenisLemburController jlc = new JenisLemburController(OTHibernateUtil.getSessionFactory());
-
-                                    for (JenisLembur jl : jlc.getAll()) {
-                                %><option value="<%= jl.getIdJenisLembur()%>"><%= jl.getJenisLembur()%></option>           
-                                <%    }
-                                %>
-                            </select>
+                            %>
                         </div>
                     </div>
-                    <div class="form-group row">
-                        <label for="ket" class="col-sm-2 col-form-label">Keterangan</label>
-                        <div class="col-sm-4">
-                            <textarea name="txtKeterangan" class="form-control" id="ket"></textarea>
-                        </div>
-                    </div>
-                    <input type="hidden" name="id" value="<%=session.getAttribute("id")%>">
-                    <div class="col-sm-6 text-center">
-                        <input type="submit" value="Save" class="btn btn-outline btn-primary" />
-                    </div>
-                </form>
-                <%
-                    }
-                %>
-                <br>
+                    <%@include file="footer.jsp" %>
+                </div>
             </div>
         </div>
-        <!-- jQuery -->
-        <script src="../lib/vendor/jquery/jquery.min.js"></script>
+        <!-- Bootstrap core JavaScript-->
+        <script src="../library/vendor/jquery/jquery.min.js"></script>
+        <script src="../library/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
-        <!-- Bootstrap Core JavaScript -->
-        <script src="../lib/vendor/bootstrap/js/bootstrap.min.js"></script>
+        <!-- Core plugin JavaScript-->
+        <script src="../library/vendor/jquery-easing/jquery.easing.min.js"></script>
 
-        <!-- Metis Menu Plugin JavaScript -->
-        <script src="../lib/vendor/metisMenu/metisMenu.min.js"></script>
+        <!-- Page level plugin JavaScript-->
+        <script src="../library/vendor/chart.js/Chart.min.js"></script>
+        <script src="../library/vendor/datatables/jquery.dataTables.js"></script>
+        <script src="../library/vendor/datatables/dataTables.bootstrap4.js"></script>
 
-        <!-- Custom Theme JavaScript -->
-        <script src="../lib/dist/js/sb-admin-2.js"></script>
+        <!-- Custom scripts for all pages-->
+        <script src="../library/js/sb-admin.min.js"></script>
+
+        <!-- Demo scripts for this page-->
+        <script src="../library/js/demo/datatables-demo.js"></script>
+        <script src="../library/js/demo/chart-area-demo.js"></script>
     </body>
 </html>
 <% }

@@ -42,7 +42,7 @@ public class ActionLogout extends HttpServlet {
         DataOvertimeController overtimeController = new DataOvertimeController(OTHibernateUtil.getSessionFactory());
         KaryawanController karyawanController = new KaryawanController(OTHibernateUtil.getSessionFactory());
         String idKaryawan = session.getAttribute("id").toString();
-
+        
         Date date = new Date();
 
         Karyawan kar = karyawanController.getById(idKaryawan);
@@ -55,13 +55,13 @@ public class ActionLogout extends HttpServlet {
                     String id = dataOvertime.getId().toString();
                     if (overtimeController.saveOrEdit(id, dataOvertime.getTgl(), dataOvertime.getJamMasuk(), date, dataOvertime.getKeterangan(), dataOvertime.getUpahLembur().toString(), dataOvertime.getIdJenisLembur().getIdJenisLembur().toString(), dataOvertime.getIdKaryawan().getId().toString(), dataOvertime.getIdStatus().getId().toString())) {
                         session.invalidate();
-                        response.sendRedirect("views/home.jsp");
+                        response.sendRedirect("views/login.jsp");
                     }
                 }
 
             } else {
                 session.invalidate();
-                response.sendRedirect("views/home.jsp");
+                response.sendRedirect("views/login.jsp");
             }
 
         }

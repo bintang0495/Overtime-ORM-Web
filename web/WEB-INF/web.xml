@@ -41,12 +41,16 @@
         <servlet-class>servlets.ActionLogout</servlet-class>
     </servlet>
     <servlet>
+        <servlet-name>TolakOvertime</servlet-name>
+        <servlet-class>servlets.TolakOvertime</servlet-class>
+    </servlet>
+    <servlet>
         <servlet-name>AccOvertime</servlet-name>
         <servlet-class>servlets.AccOvertime</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>TolakOvertime</servlet-name>
-        <servlet-class>servlets.TolakOvertime</servlet-class>
+        <servlet-name>DataOvertimeViewServlet</servlet-name>
+        <servlet-class>servlets.DataOvertimeViewServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>ActionEditKaryawan</servlet-name>
@@ -89,16 +93,20 @@
         <url-pattern>/actionLogout</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
+        <servlet-name>TolakOvertime</servlet-name>
+        <url-pattern>/tolakOvertime</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
         <servlet-name>AccOvertime</servlet-name>
         <url-pattern>/accOvertime</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>TolakOvertime</servlet-name>
-        <url-pattern>/tolakOvertime</url-pattern>
+        <servlet-name>DataOvertimeViewServlet</servlet-name>
+        <url-pattern>/dataOvertimeViewServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
-            30
+            780
         </session-timeout>
     </session-config>
 </web-app>

@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="null" language="groovy" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="c2a9294e-95e7-4618-86ac-97acdbd8da6a">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<style name="Title" fontName="Times New Roman" fontSize="50" isBold="true" pdfFontName="Times-Bold"/>
+	<style name="SubTitle" forecolor="#736343" fontName="Arial" fontSize="18"/>
+	<style name="Column header" forecolor="#666666" fontName="Arial" fontSize="12" isBold="true"/>
+	<style name="Detail" fontName="Arial" fontSize="12"/>
+	<style name="Row" mode="Transparent">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$V{REPORT_COUNT}%2 == 0]]></conditionExpression>
+			<style backcolor="#E6DAC3"/>
+		</conditionalStyle>
+	</style>
+	<queryString>
+		<![CDATA[SELECT
+     TO_CHAR(DATA_OVERTIME."TGL", 'dd-MM-yyyy') AS DATA_OVERTIME_TGL,
+     KARYAWAN."NAMA" AS KARYAWAN_NAMA,
+     TO_CHAR(DATA_OVERTIME."JAM_MASUK", 'HH.mm') AS DATA_OVERTIME_JAM_MASUK,
+     TO_CHAR(DATA_OVERTIME."JAM_PULANG", 'HH.mm') AS DATA_OVERTIME_JAM_PULANG,
+     DATA_OVERTIME."KETERANGAN" AS DATA_OVERTIME_KETERANGAN,
+     DATA_OVERTIME."UPAH_LEMBUR" AS DATA_OVERTIME_UPAH_LEMBUR,
+     JENIS_LEMBUR."JENIS_LEMBUR" AS JENIS_LEMBUR_JENIS_LEMBUR
+FROM
+     "OVERTIME"."KARYAWAN" KARYAWAN INNER JOIN "OVERTIME"."DATA_OVERTIME" DATA_OVERTIME ON KARYAWAN."ID" = DATA_OVERTIME."ID_KARYAWAN"
+     INNER JOIN "OVERTIME"."JENIS_LEMBUR" JENIS_LEMBUR ON DATA_OVERTIME."ID_JENIS_LEMBUR" = JENIS_LEMBUR."ID_JENIS_LEMBUR"
+ORDER BY TGL ASC]]>
+	</queryString>
+	<field name="DATA_OVERTIME_TGL" class="java.lang.String"/>
+	<field name="KARYAWAN_NAMA" class="java.lang.String"/>
+	<field name="DATA_OVERTIME_JAM_MASUK" class="java.lang.String"/>
+	<field name="DATA_OVERTIME_JAM_PULANG" class="java.lang.String"/>
+	<field name="DATA_OVERTIME_KETERANGAN" class="java.lang.String"/>
+	<field name="DATA_OVERTIME_UPAH_LEMBUR" class="java.math.BigDecimal"/>
+	<field name="JENIS_LEMBUR_JENIS_LEMBUR" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="136" splitType="Stretch">
+			<staticText>
+				<reportElement style="Title" x="240" y="0" width="315" height="48" uuid="a164bd07-7a86-443c-983f-3b733ec675a6"/>
+				<textElement verticalAlignment="Middle">
+					<font size="30" pdfFontName="Times-Roman"/>
+				</textElement>
+				<text><![CDATA[Laporan Data Overtime]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="SubTitle" x="276" y="48" width="239" height="22" uuid="d5de9945-415e-45e5-9ff3-2b606633ad22"/>
+				<textElement>
+					<font fontName="Times New Roman" pdfFontName="Times-Roman"/>
+				</textElement>
+				<text><![CDATA[PT. Mitra Integrasi Informatika]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="211" y="80" width="375" height="42" uuid="974d7147-1454-4be0-8dcc-042ecce64cef"/>
+				<textElement textAlignment="Center">
+					<font size="10"/>
+				</textElement>
+				<text><![CDATA[APL Tower Lantai 37, Jl. Letjen S. Parman Kav. 28, RT.12/RW.6, Tj. Duren Sel., Jakarta Barat, Kota Jakarta Barat, Daerah Khusus Ibukota Jakarta 11470]]></text>
+			</staticText>
+			<image>
+				<reportElement x="1" y="0" width="169" height="113" uuid="a29f9a40-6973-4873-8634-7fd784355870"/>
+				<imageExpression><![CDATA["C:\\Users\\BINTANG\\Pictures\\mii.png"]]></imageExpression>
+			</image>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="16" splitType="Stretch">
+			<line>
+				<reportElement positionType="FixRelativeToBottom" x="0" y="15" width="802" height="1" uuid="0bc40831-eaa8-4512-8798-4cf2be5f5b80"/>
+				<graphicElement>
+					<pen lineWidth="0.5" lineColor="#999999"/>
+				</graphicElement>
+			</line>
+			<staticText>
+				<reportElement style="Column header" x="0" y="0" width="114" height="15" forecolor="#736343" uuid="eb5520b3-4dd4-4d05-a1bb-4a507359c909"/>
+				<text><![CDATA[TANGGAL LEMBUR]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="114" y="0" width="114" height="15" forecolor="#736343" uuid="602340e2-af5c-4820-9e2b-c3e5bd236c51"/>
+				<text><![CDATA[NAMA KARYAWAN]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="228" y="0" width="114" height="15" forecolor="#736343" uuid="f1c29a31-fff9-4e8c-97cc-317e6e5248e0"/>
+				<text><![CDATA[JAM MASUK]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="342" y="0" width="114" height="15" forecolor="#736343" uuid="0cd8b6f8-a6a3-49cd-9019-cc51028c0f31"/>
+				<text><![CDATA[JAM PULANG]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="456" y="0" width="114" height="15" forecolor="#736343" uuid="738999ed-884b-4753-bce1-16b848017097"/>
+				<text><![CDATA[KETERANGAN]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="570" y="0" width="114" height="15" forecolor="#736343" uuid="43ab4cef-9e6b-4a6d-8cce-a8e8a2bebaf8"/>
+				<text><![CDATA[JENIS LEMBUR]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="684" y="0" width="114" height="15" forecolor="#736343" uuid="acb60f9c-e688-4417-8ff0-b540924c01a4"/>
+				<text><![CDATA[UPAH LEMBUR]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="15" splitType="Stretch">
+			<frame>
+				<reportElement style="Row" mode="Opaque" x="0" y="0" width="802" height="15" uuid="4d05aaed-c5ce-4897-8f9e-8d89b7bbb898"/>
+				<textField isStretchWithOverflow="true">
+					<reportElement style="Detail" x="0" y="0" width="114" height="15" uuid="52c162fd-da4c-49c0-8603-71898e737a03"/>
+					<textFieldExpression><![CDATA[$F{DATA_OVERTIME_TGL}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement style="Detail" x="114" y="0" width="114" height="15" uuid="09858650-02da-4114-b36b-d92d630f201f"/>
+					<textFieldExpression><![CDATA[$F{KARYAWAN_NAMA}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement style="Detail" x="228" y="0" width="114" height="15" uuid="5f02d02a-bff0-406e-ba33-f2540fc147a8"/>
+					<textFieldExpression><![CDATA[$F{DATA_OVERTIME_JAM_MASUK}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement style="Detail" x="342" y="0" width="114" height="15" uuid="7c3b019f-b195-47a9-8439-ceff052060a7"/>
+					<textFieldExpression><![CDATA[$F{DATA_OVERTIME_JAM_PULANG}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement style="Detail" x="456" y="0" width="114" height="15" uuid="3d7ccb82-97e9-4c1b-a4ce-147253befa49"/>
+					<textFieldExpression><![CDATA[$F{DATA_OVERTIME_KETERANGAN}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement style="Detail" x="570" y="0" width="114" height="15" uuid="89a7906b-343e-43bd-91b7-f2049404816a"/>
+					<textFieldExpression><![CDATA[$F{JENIS_LEMBUR_JENIS_LEMBUR}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement style="Detail" x="684" y="0" width="114" height="15" uuid="022da02a-bde3-446a-a47e-091c8dc1a381"/>
+					<textFieldExpression><![CDATA[$F{DATA_OVERTIME_UPAH_LEMBUR}]]></textFieldExpression>
+				</textField>
+			</frame>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="6" splitType="Stretch">
+			<line>
+				<reportElement positionType="FixRelativeToBottom" x="0" y="3" width="802" height="1" uuid="8c1d8962-aff9-42e6-938e-8aff8b3e3cfb"/>
+				<graphicElement>
+					<pen lineWidth="0.5" lineColor="#999999"/>
+				</graphicElement>
+			</line>
+		</band>
+	</columnFooter>
+	<pageFooter>
+		<band height="25" splitType="Stretch">
+			<frame>
+				<reportElement mode="Opaque" x="-21" y="1" width="843" height="24" forecolor="#D0B48E" backcolor="#F2EBDF" uuid="22d2ebed-1844-43f4-a4a5-98cf5cc6a0c2"/>
+				<textField evaluationTime="Report">
+					<reportElement style="Column header" x="783" y="1" width="40" height="20" forecolor="#736343" uuid="1c458d6b-fcec-4bd9-9c3c-b8bdfaf53c67"/>
+					<textElement verticalAlignment="Middle">
+						<font size="10" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement style="Column header" x="703" y="1" width="80" height="20" forecolor="#736343" uuid="870107a8-e23c-4f11-9947-0fc14f0eb37a"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font size="10" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+				</textField>
+				<textField pattern="EEEEE dd MMMMM yyyy">
+					<reportElement style="Column header" x="22" y="1" width="197" height="20" forecolor="#736343" uuid="b6a2351e-a67a-4efe-9f0e-68b21696bce6"/>
+					<textElement verticalAlignment="Middle">
+						<font size="10" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+				</textField>
+			</frame>
+		</band>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

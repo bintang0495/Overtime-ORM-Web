@@ -40,7 +40,7 @@ public class ActionEditKaryawan extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        
+
         KaryawanController kc = new KaryawanController(OTHibernateUtil.getSessionFactory());
         String id = request.getParameter("txtIdKaryawan");
         String role = request.getParameter("cmbRole");
@@ -51,25 +51,24 @@ public class ActionEditKaryawan extends HttpServlet {
         String gaji = request.getParameter("txtGaji");
         String email = request.getParameter("txtEmail");
         String jk = request.getParameter("jenisKelamin");
-        try (PrintWriter out = response.getWriter()) {
-            DateFormat formatTanggal = new SimpleDateFormat("yyyy-MM-dd");
-            
+        HttpSession session = request.getSession();
+        DateFormat formatTanggal = new SimpleDateFormat("yyyy-MM-dd");
         String password = kc.getById(id).getPassword().toString();
-            Date tanggalLahir = formatTanggal.parse(tglLahir);
-            Date tanggalMasuk = formatTanggal.parse(tglMasuk);
-            if(kc.saveOrEdit(id, nama, tanggalLahir, tanggalMasuk, alamat, gaji, email, jk, password, role)){
-                response.sendRedirect("views/dataKaryawan.jsp");
-            } else{
-                out.println(id);
-                out.println(role);
-                out.println(nama);
-                out.println(tglLahir);
-                out.println(tglMasuk);
-                out.println(alamat);
-                out.println(gaji);
-                out.println(email);
-                out.println(jk);
-                out.println(password);
+
+        try (PrintWriter out = response.getWriter()) {
+
+            if (nama == "" || tglLahir == "" || tglMasuk == "" || alamat == "" || gaji == "") {
+                session.setAttribute("msg", "Isikan data terlebih dahulu");
+                response.sendRedirect("views/addKaryawan.jsp");
+            } else {
+                Date tanggalLahir = formatTanggal.parse(tglLahir);
+                Date tanggalMasuk = formatTanggal.parse(tglMasuk);
+                if (kc.saveOrEdit(id, nama, tanggalLahir, tanggalMasuk, alamat, gaji, email, jk, password, role)) {
+                    session.setAttribute("msg", "Data berhasil ditambahkan");
+                    response.sendRedirect("views/dataKaryawan.jsp");
+                } else {
+                    session.setAttribute("msg", "Data gagal ditambahkan");
+                }
             }
         } catch (ParseException ex) {
             Logger.getLogger(ActionEditKaryawan.class.getName()).log(Level.SEVERE, null, ex);

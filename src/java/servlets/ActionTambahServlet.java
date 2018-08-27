@@ -17,6 +17,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import org.mindrot.jbcrypt.BCrypt;
 import tools.OTHibernateUtil;
 
@@ -38,11 +39,12 @@ public class ActionTambahServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
+        HttpSession session = request.getSession();
         KaryawanController kc = new KaryawanController(OTHibernateUtil.getSessionFactory());
         String id = kc.getAutoId();
         String nama = request.getParameter("txtNamaPegawai");
         String role = request.getParameter("cmbRole");
-        
+
         String tglLahir = request.getParameter("txtTglLahir");
         String tglMasuk = request.getParameter("txtTglMasuk");
         String alamat = request.getParameter("txtAlamat");
@@ -50,29 +52,36 @@ public class ActionTambahServlet extends HttpServlet {
         String email = request.getParameter("txtEmail");
         String jk = request.getParameter("jenisKelamin");
         char[] i = tglLahir.toCharArray();
-        String temp="";
+        String temp = "";
         for (int j = 0; j < i.length; j++) {
             if (j < 4) {
-                temp = temp+""+i[j];
+                temp = temp + "" + i[j];
             }
-            if(j>4 && j<7){
-                temp = temp+""+i[j];
+            if (j > 4 && j < 7) {
+                temp = temp + "" + i[j];
             }
-            if(j>7 && j<12){
-                temp = temp+""+i[j];
-            }   
+            if (j > 7 && j < 12) {
+                temp = temp + "" + i[j];
+            }
         }
         String salt = BCrypt.gensalt(12);
         String password = BCrypt.hashpw(temp, salt);
         try (PrintWriter out = response.getWriter()) {
-            
-            DateFormat formatTanggal = new SimpleDateFormat("yyyy-MM-dd");
-            Date tanggalLahir = formatTanggal.parse(tglLahir);
-            Date tanggalMasuk = formatTanggal.parse(tglMasuk);
-            if (kc.saveOrEdit(id, nama, tanggalLahir, tanggalMasuk, alamat, gaji, email, jk, password, role)) {
-                response.sendRedirect("views/home.jsp");
+
+            if (nama == "" || tglLahir == "" || tglMasuk == "" || alamat == "" || gaji == "") {
+                session.setAttribute("msg", "Isikan data terlebih dahulu");
+                response.sendRedirect("views/addKaryawan.jsp");
             } else {
-                out.println("Gagal, kasian deh~");
+                DateFormat formatTanggal = new SimpleDateFormat("yyyy-MM-dd");
+                Date tanggalLahir = formatTanggal.parse(tglLahir);
+                Date tanggalMasuk = formatTanggal.parse(tglMasuk);
+                if (kc.saveOrEdit(id, nama, tanggalLahir, tanggalMasuk, alamat, gaji, email, jk, password, role)) {
+                    session.setAttribute("msgaction", "Data berhasil ditambahkan");
+                    response.sendRedirect("views/dataKaryawan.jsp");
+                    session.setAttribute("msg", " ");
+                } else {
+                    session.setAttribute("msg", "Data gagal ditambahkan");
+                }
             }
         } catch (Exception ex) {
             Logger.getLogger(ActionEditKaryawan.class.getName()).log(Level.SEVERE, null, ex);

@@ -8,11 +8,11 @@
 <html>
 <head>
     <title> Login </title>
-    <link rel="stylesheet" type="text/css" href="../lib/css/styleLogin.css">
+    <link rel="stylesheet" type="text/css" href="styleLogin.css">
 </head>
     <body>
     <div class="login-box">
-    <img src="../lib/img/avatar.png" class="avatar">
+    <img src="../library/img/avatar.png" class="avatar">
         <h1>Login Here</h1>
         <form action="../validationServlet" method="GET">
             <p>Email</p>
@@ -20,7 +20,14 @@
             <p>Password</p>
             <input type="password" name="txtPassword" placeholder="Enter your password">
             <input type="submit" name="submit" value="Login">
-            <a href="#">Forget Password</a>
+            <p class="text-center">
+                <%
+                    if(session.getAttribute("msg")!= null){
+                        out.println(session.getAttribute("msg"));
+                    }
+                    session.setAttribute("msg", " ");
+                %>
+            </p>
             </form>
 
 

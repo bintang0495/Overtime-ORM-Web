@@ -19,6 +19,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import org.mindrot.jbcrypt.BCrypt;
 import tools.OTHibernateUtil;
 
@@ -45,14 +46,20 @@ public class ActionEditOvertime extends HttpServlet {
         String jenisLembur = request.getParameter("cmbJenisLembur");
         String ket = request.getParameter("txtKeterangan");
         Date date = new Date();
-
+        HttpSession session = request.getSession();
         try (PrintWriter out = response.getWriter()) {
             DataOvertime dataOvertime = controller.searchSortingId("idKaryawan", idKaryawan, "desc").get(0);
-            if (new SimpleDateFormat("dd-MM-yyyy").format(dataOvertime.getTgl()).equals(new SimpleDateFormat("dd-MM-yyyy").format(date))) {
-                String id = dataOvertime.getId().toString();
-                if (controller.saveOrEdit(id, dataOvertime.getTgl(), dataOvertime.getJamMasuk(), dataOvertime.getJamPulang(), ket, dataOvertime.getUpahLembur().toString(), jenisLembur, dataOvertime.getIdKaryawan().getId().toString(), dataOvertime.getIdStatus().getId().toString())) {
-                    response.sendRedirect("views/dataKaryawan.jsp");
+            if (ket != "") {
+                if (new SimpleDateFormat("dd-MM-yyyy").format(dataOvertime.getTgl()).equals(new SimpleDateFormat("dd-MM-yyyy").format(date))) {
+                    String id = dataOvertime.getId().toString();
+                    if (controller.saveOrEdit(id, dataOvertime.getTgl(), dataOvertime.getJamMasuk(), dataOvertime.getJamPulang(), ket, dataOvertime.getUpahLembur().toString(), jenisLembur, dataOvertime.getIdKaryawan().getId().toString(), dataOvertime.getIdStatus().getId().toString())) {
+                        session.setAttribute("msg", "Submit overtime berhasil!");
+                        response.sendRedirect("views/addOvertime.jsp");
+                    }
                 }
+            } else {
+                session.setAttribute("msg", "Isikan keterangan terlebih dahulu");
+                response.sendRedirect("views/addOvertime.jsp");
             }
 
         } catch (Exception ex) {

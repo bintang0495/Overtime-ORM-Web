@@ -8,90 +8,43 @@
 <%@page import="tools.OTHibernateUtil"%>
 <%@page import="controllers.KaryawanController"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<% KaryawanController controller = new KaryawanController(OTHibernateUtil.getSessionFactory());
-    Karyawan dataUser = controller.getById(session.getAttribute("id").toString());
-%>
+
 <!DOCTYPE html>
-<nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
-    <div class="navbar-header">
-        <a class="navbar-brand" href="home.jsp"><label>Overtime</label></a>
-    </div>
-    <!-- /.navbar-header -->
+<%
+    KaryawanController kc = new KaryawanController(OTHibernateUtil.getSessionFactory());
+    Karyawan dataUser = kc.getById(session.getAttribute("id").toString());
+    response.setHeader("Cache-Control", "no-cache");
+    response.setHeader("Fragma", "no-cache");
+    response.setHeader("Cache-Control", "no-store");
+    
 
-    <ul class="nav navbar-top-links navbar-right">
-        <br>
-        <span><label>Selamat Datang, <%=dataUser.getNama()%> </label></span>
-        <span>
-            <li class="dropdown open">
+%>
+<nav class="navbar navbar-expand static-top" style="background-color: #138496">
 
-                <a class="dropdown-toggle" data-toggle="dropdown" href="#" aria-expanded="true">
-                    <i class="fa fa-user fa-fw"></i> <i class="fa fa-caret-down"></i>
-                </a>
-                <ul class="dropdown-menu dropdown-user">
-                    <li><a href="profilUser.jsp"><i class="fa fa-user fa-fw"></i> User Profile</a>
-                    </li>
-                    <li><a href="editPassword.jsp"><i class="fa fa-gear fa-fw"></i> Edit Password</a>
-                    </li>
-                    <li class="divider"></li>
-                    <li><a href="../actionLogout"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
-                    </li>
-                </ul>
-                <!-- /.dropdown-user -->
-            </li>
-        </span>
-    </ul>
-    <!-- /.navbar-top-links -->
+    <a class="navbar-brand mr-1" href="home.jsp" style="color:#F7F7F7"><b>Overtime</b></a>
 
-    <div class="navbar-default sidebar" role="navigation">
-        <div class="sidebar-nav navbar-collapse">
-            <ul class="nav" id="side-menu">
-                <li class="sidebar-search">
-                    <div class="input-group custom-search-form">
-                        <input type="text" class="form-control" placeholder="Search...">
-                        <span class="input-group-btn">
-                            <button class="btn btn-default" type="button">
-                                <i class="fa fa-search"></i>
-                            </button>
-                        </span>
-                    </div>
-                    <!-- /input-group -->
-                </li>
-                <li>
-                    <a href="home.jsp"><i class="fa fa-university fa-fw"></i>Home</a>
-                </li>
-                <% if (!dataUser.getIdRole().getId().equalsIgnoreCase("USR")) {
-                %>
-                <li>
-                    <a href="#"><i class="fa fa-table fa-fw"></i>Tables<span class="fa arrow"></span></a>
-                    <ul class="nav nav-second-level">
+    <button class="btn btn-link btn-sm text-white order-1 order-sm-0" id="sidebarToggle" href="#">
+        <i class="fas fa-bars"></i>
+    </button>
 
-                        <li>
-                            <a href="dataKaryawan.jsp">Data Karyawan</a>
-                        </li>
-                        
-                        <li>
-                            <a href="dataOvertime.jsp">Data Overtime</a>
-                        </li>
-                        
-                        <li>
-                            <a href="dataWaitingApproval.jsp">Waiting Approval</a>
-                        </li>
-                        
-                        
-                    </ul>
-                </li>
-                <% } else {%>
-                <li>
-                    <a href="addOvertime.jsp"><i class="fa fa-edit fa-fw"></i>Submit Overtime</a>
-                </li>
-                <li>
-                    <a href="dataHistoryOvertime.jsp"><i class="fa fa-calendar fa-fw"></i>History Overtime</a>
-                </li>
-                <% }%>
-
-            </ul>
+    <!-- Navbar Search -->
+    <form class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0">
+        <div class="input-group">
+            <label style="color:#F7F7F7"><strong>Selamat Datang, <%=dataUser.getNama()%></strong> </label>
         </div>
-        <!-- /.sidebar-collapse -->
-    </div>
-    <!-- /.navbar-static-side -->
+    </form>
+
+    <!-- Navbar -->
+    <li class="nav-item dropdown no-arrow">
+        <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="color: white">
+            <i class="fas fa-user-circle fa-fw" ></i>
+        </a>
+        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
+            <a class="dropdown-item" href="profilUser.jsp">User Profile</a>
+            <a class="dropdown-item" href="editPassword.jsp">Edit Password</a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" href="../actionLogout" data-toggle="modal" data-target="#logoutModal">Logout</a>
+        </div>
+    </li>
+</ul>
 </nav>

@@ -1,0 +1,41 @@
+.dropdown-item:hover
+{
+    cursor: pointer;
+    background: #35BDD1;
+    color: #000;
+}
+
+body{
+    background-color: #F8FFFD;
+}
+
+#header-home{
+    font-family:Lucida Sans Unicode;
+    position: relative;
+    left: 20px;
+}
+
+h1{
+    color: #686868;
+}
+
+#footer-MII{
+    font-family:Lucida Sans Unicode;
+    position: absolute;
+    left: 0;
+    top: 50%;
+    width: 100%;
+    text-align: center;
+}
+
+#tmbKar{
+    position: relative;
+    left: 20px;
+    top : 20px;
+    bottom: 20px;
+}
+
+.jenisKel{
+    position: relative;
+    left: 110px;
+}

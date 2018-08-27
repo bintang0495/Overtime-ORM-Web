@@ -45,7 +45,7 @@ public class RoleController {
         return this.convertToListRole(this.rdao.search(category, data));
     }
     
-    public Role getById(String jobId){
-        return this.rdao.getRoleById(jobId);
+    public Role getById(String roleId){
+        return this.rdao.getRoleById(roleId);
     }
 }

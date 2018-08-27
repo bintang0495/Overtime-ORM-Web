@@ -42,21 +42,47 @@ public class Tester {
         DataOvertimeController controller = new DataOvertimeController(OTHibernateUtil.getSessionFactory());
         Date date = new Date();
         
-        DataOvertime dataOvertime = controller.search("id", "2").get(0);
-            int gaji,upah;
+//        DataOvertime dataOvertime = controller.search("id", "2").get(0);
+//            int gaji,upah;
+//            upah = 0;
+//            gaji = Integer.parseInt(dataOvertime.getIdKaryawan().getGaji().toString());
+//            upah =(int) (gaji * (0.01));
+//            String id = dataOvertime.getId().toString();
+//            Date tglMasuk = dataOvertime.getTgl(); 
+//            Date jamMasuk = dataOvertime.getJamMasuk();
+//            Date jamPulang = dataOvertime.getJamPulang();
+//            String ket = dataOvertime.getKeterangan();
+//            String upahh = upah+""; 
+//            String jenisLembur = dataOvertime.getIdJenisLembur().getIdJenisLembur().toString(); 
+//            String karyawanId = dataOvertime.getIdKaryawan().getId().toString();
+//            String status = "2";
+            DataOvertime dataOvertime = controller.search("id", "4").get(0);
+            int paramJamPlgKantor = 17;
+
+            int gaji, upah;
             upah = 0;
             gaji = Integer.parseInt(dataOvertime.getIdKaryawan().getGaji().toString());
-            upah =(int) (gaji * (0.01));
-            String id = dataOvertime.getId().toString();
-            Date tglMasuk = dataOvertime.getTgl(); 
+            upah = (int) (gaji * (0.01));
+            String idOT = dataOvertime.getId().toString();
+            Date tglMasuk = dataOvertime.getTgl();
             Date jamMasuk = dataOvertime.getJamMasuk();
             Date jamPulang = dataOvertime.getJamPulang();
+            int jamPlg = Integer.parseInt(new SimpleDateFormat("HH").format(jamPulang));
+            if (jamPlg >= 21) {
+                jamPlg = 21;
+            }
             String ket = dataOvertime.getKeterangan();
-            String upahh = upah+""; 
-            String jenisLembur = dataOvertime.getIdJenisLembur().getIdJenisLembur().toString(); 
+            upah = upah * (jamPlg - paramJamPlgKantor);
+            String upahh = upah + "";
+            String jenisLembur = dataOvertime.getIdJenisLembur().getIdJenisLembur().toString();
             String karyawanId = dataOvertime.getIdKaryawan().getId().toString();
             String status = "2";
-        System.out.println(id);
+            if (controller.saveOrEdit(idOT, tglMasuk, jamMasuk, jamPulang, ket, upahh, jenisLembur, karyawanId, status)) {
+                System.out.println("Berhaasil");
+            } else {
+                System.out.println("Gagal");
+            }
+        System.out.println(idOT);
         System.out.println(tglMasuk);
         System.out.println(jamMasuk);
         System.out.println(jamPulang);
@@ -65,11 +91,7 @@ public class Tester {
         System.out.println(jenisLembur);
         System.out.println(karyawanId);
         System.out.println(status);
-        if(controller.saveOrEdit(id, tglMasuk, jamMasuk, jamPulang, ket, jenisLembur, jenisLembur, karyawanId, status)){
-            System.out.println("Berhaasil");
-        }else{
-            System.out.println("Gagal");
-        }
+        
         Date d = null;
 //        if(new SimpleDateFormat("dd-MM-yyyy").format(controller.getById("2").getJamMasuk()) == null){
 //            System.out.println("Tidak bisa bod");

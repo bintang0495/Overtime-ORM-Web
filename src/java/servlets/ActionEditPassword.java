@@ -13,6 +13,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import org.mindrot.jbcrypt.BCrypt;
 import tools.OTHibernateUtil;
 
@@ -39,21 +40,32 @@ public class ActionEditPassword extends HttpServlet {
         String rePassBaru = request.getParameter("rePassBaru");
         String id = request.getParameter("id");
         String salt = BCrypt.gensalt(12);
-
+        HttpSession session = request.getSession();
         KaryawanController kc = new KaryawanController(OTHibernateUtil.getSessionFactory());
         Karyawan kar = kc.getById(id);
         try (PrintWriter out = response.getWriter()) {
-            
-            if (BCrypt.checkpw(passLama, kar.getPassword())) {
-                if (passBaru.equals(rePassBaru)) {
-                    kc.saveOrEdit(id, kar.getNama(), kar.getTglLahir(), kar.getTglMasuk(), kar.getAlamat(), kar.getGaji().toString(), kar.getEmail(), kar.getJenisKelamin(), BCrypt.hashpw(passBaru, salt), kar.getIdRole().getId());
-                    response.sendRedirect("views/home.jsp");
-
-                } else {
-                    out.println("Konfirmasi password tidak sesuai");
-                }
+            if (passLama == "" || passBaru == "" || rePassBaru == "") {
+                session.setAttribute("msg", "Isi form terlebih dahulu!");
+                response.sendRedirect("views/editPassword.jsp");
             } else {
-                out.println("Password lama tidak sesuai");
+                if (passBaru.toCharArray().length <= 6) {
+                    session.setAttribute("msg", "Masukkan password 6 digit");
+                    response.sendRedirect("views/editPassword.jsp");
+                } else {
+                    if (BCrypt.checkpw(passLama, kar.getPassword())) {
+                        if (passBaru.equals(rePassBaru)) {
+                            kc.saveOrEdit(id, kar.getNama(), kar.getTglLahir(), kar.getTglMasuk(), kar.getAlamat(), kar.getGaji().toString(), kar.getEmail(), kar.getJenisKelamin(), BCrypt.hashpw(passBaru, salt), kar.getIdRole().getId());
+                            session.setAttribute("msg", "Password berhasil diubah!");
+                            response.sendRedirect("views/editPassword.jsp");
+                        } else {
+                            session.setAttribute("msg", "Konfirmasi password tidak sesuai");
+                            response.sendRedirect("views/editPassword.jsp");
+                        }
+                    } else {
+                        session.setAttribute("msg", "Password tidak sesuai");
+                        response.sendRedirect("views/editPassword.jsp");
+                    }
+                }
             }
         }
     }

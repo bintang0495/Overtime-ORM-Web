@@ -53,7 +53,8 @@ public class ValidationServlet extends HttpServlet {
 //        DataOvertimeController doc = new DataOvertimeController(OTHibernateUtil.getSessionFactory());
         try (PrintWriter out = response.getWriter()) {
             if (email == "" || email == null || password == "" || password == null) {
-                out.println("Isikan Email/password");
+                session.setAttribute("msg", "Isikan data terlebih dahulu");
+                response.sendRedirect("views/login.jsp");
             } else {
                 if (kc.login("email", email, password)) {
                     if(kc.getByCategory("email", email).getIdRole().getId().equalsIgnoreCase("USR")){
@@ -62,6 +63,7 @@ public class ValidationServlet extends HttpServlet {
                     session.setAttribute("id", id);
                     response.sendRedirect("views/home.jsp");
                 } else {
+                    session.setAttribute("msg", "Email atau password tidak valid");
                     response.sendRedirect("views/login.jsp");
                 }
 
